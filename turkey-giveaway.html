@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
   <style>
     body { font-family: 'Inter', sans-serif; }
   </style>
@@ -32,9 +33,15 @@
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">9th Annual Turkey Giveaway – 2025</h1>
-    <p class="text-gray-700 mb-6 text-center">Distribute 1,000 turkeys, making it the largest giveaway in Western New York.</p>
+  <section class="h-64 bg-[url('images/hero.jpg')] bg-cover bg-center"></section>
+
+  <main class="max-w-3xl mx-auto px-4 py-12 space-y-6">
+    <div class="bg-yellow-50 rounded-lg p-6 shadow">
+      <h1 class="text-3xl font-bold text-green-700 text-center">9th Annual Turkey Giveaway – 2025</h1>
+    </div>
+    <div class="bg-yellow-50 rounded-lg p-6 shadow">
+      <p class="text-gray-700 text-center">Distribute 1,000 turkeys, making it the largest giveaway in Western New York.</p>
+    </div>
     <div class="space-y-4">
       <div>
         <p class="font-semibold">Date/Time:</p>
@@ -54,12 +61,21 @@
         </ul>
       </div>
     </div>
-    <section class="mt-8 text-center space-y-4">
+    <section class="bg-yellow-50 rounded-lg p-6 shadow text-center space-y-4">
       <h2 class="text-2xl font-semibold text-green-700">Support the Giveaway</h2>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="/donate.html?amount=2000" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow">Donate $2,000</a>
-        <a href="/donate.html?amount=1500" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow">Donate $1,500</a>
-        <a href="/donate.html?amount=1000" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow">Donate $1,000</a>
+        <a href="/donate.html?amount=2000" class="donate-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8v8m0-10v2m0 12v2" /></svg>
+          Donate $2,000
+        </a>
+        <a href="/donate.html?amount=1500" class="donate-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8v8m0-10v2m0 12v2" /></svg>
+          Donate $1,500
+        </a>
+        <a href="/donate.html?amount=1000" class="donate-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8v8m0-10v2m0 12v2" /></svg>
+          Donate $1,000
+        </a>
       </div>
       <p>Other amounts are welcome. <a href="/donate.html" class="text-green-700 underline">Donate another amount</a>.</p>
       <p class="text-sm text-gray-600">Donations are tax-deductible and processed securely via Stripe.</p>
