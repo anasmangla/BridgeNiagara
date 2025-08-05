@@ -70,6 +70,24 @@
       const tabs = document.querySelectorAll('.donate-tab');
       const modeInput = document.getElementById('donation-mode');
 
+      // Prefill donation amount from query parameter
+      const params = new URLSearchParams(window.location.search);
+      const amountParam = params.get('amount');
+      if (amountParam) {
+        const presetValues = ['1000', '2000', '5000', '10000'];
+        if (presetValues.includes(amountParam)) {
+          const radio = document.querySelector(`input[name="amount"][value="${amountParam}"]`);
+          if (radio) {
+            radio.checked = true;
+          }
+        } else {
+          const customInput = document.querySelector('input[name="custom_amount"]');
+          if (customInput) {
+            customInput.value = amountParam;
+          }
+        }
+      }
+
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => {
