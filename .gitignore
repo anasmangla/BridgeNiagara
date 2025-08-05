@@ -1,8 +1,10 @@
 # Ignore environment files
 .env
+stripe-server/.env
 
 # Node dependencies
 node_modules/
+stripe-server/node_modules/
 
 # Other
 .DS_Store
