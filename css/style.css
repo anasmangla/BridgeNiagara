@@ -1,5 +1,25 @@
 /* Tailwind handled via CDN; this file is for custom overrides */
 
 .donate-btn {
-  @apply bg-red-600 text-white px-6 py-3 rounded shadow flex items-center justify-center gap-2 w-full sm:w-auto transition-colors duration-200 hover:bg-red-700;
+  background-color: #dc2626; /* red-600 */
+  color: #fff;
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  border-radius: 0.25rem; /* rounded */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* gap-2 */
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.donate-btn:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+@media (min-width: 640px) {
+  .donate-btn {
+    width: auto; /* sm:w-auto */
+  }
 }
