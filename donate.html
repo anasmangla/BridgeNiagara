@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate - Bridge Niagara Foundation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- Consistent Navigation Bar -->
+  <header class="sticky top-0 bg-white backdrop-blur shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <img src="images/bnf_logo.png" alt="BNF Logo" class="h-20 bg-white p-2 rounded shadow mr-3">
+        <span class="text-xl font-bold text-green-700">Bridge Niagara Foundation</span>
+      </div>
+      <nav class="hidden md:block">
+        <ul class="flex gap-4 text-sm md:text-base items-center">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="donate.html" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition">Donate</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">Support Our Mission</h1>
+
+    <form id="donation-form" action="https://bridge-donation.onrender.com/create-checkout-session" method="POST" class="space-y-6">
+      <div>
+        <label class="block text-lg font-semibold">Choose Amount</label>
+        <div class="flex gap-4 mt-2">
+          <input type="radio" name="amount" value="1000" id="a10"><label for="a10">$10</label>
+          <input type="radio" name="amount" value="2000" id="a20"><label for="a20">$20</label>
+          <input type="radio" name="amount" value="5000" id="a50"><label for="a50">$50</label>
+          <input type="radio" name="amount" value="10000" id="a100"><label for="a100">$100</label>
+        </div>
+        <input type="number" name="custom_amount" placeholder="Or enter custom amount" class="w-full border px-4 py-2 mt-4" min="1">
+      </div>
+
+      <div>
+        <label class="text-lg font-semibold">One-time or Monthly?</label>
+        <div class="flex gap-4 mt-2">
+          <button type="button" class="donate-tab bg-green-700 text-white px-4 py-2 rounded" data-mode="payment">One-Time</button>
+          <button type="button" class="donate-tab bg-gray-200 text-gray-800 px-4 py-2 rounded" data-mode="subscription">Monthly</button>
+        </div>
+        <input type="hidden" name="mode" id="donation-mode" value="payment">
+      </div>
+
+      <fieldset>
+        <legend class="text-lg font-semibold">Your Info (Optional)</legend>
+        <input type="text" name="name" placeholder="Name" class="w-full border px-4 py-2 mt-2">
+        <input type="email" name="email" placeholder="Email for receipt" class="w-full border px-4 py-2 mt-2">
+        <input type="tel" name="phone" placeholder="Phone Number" class="w-full border px-4 py-2 mt-2">
+      </fieldset>
+
+      <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded shadow transition">Donate Now</button>
+    </form>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabs = document.querySelectorAll('.donate-tab');
+      const modeInput = document.getElementById('donation-mode');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => {
+            t.classList.remove('bg-green-700', 'text-white');
+            t.classList.add('bg-gray-200', 'text-gray-800');
+          });
+          tab.classList.remove('bg-gray-200', 'text-gray-800');
+          tab.classList.add('bg-green-700', 'text-white');
+          modeInput.value = tab.dataset.mode;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

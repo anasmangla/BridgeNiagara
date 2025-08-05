@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Bridge Niagara</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- Navigation -->
+  <header class="sticky top-0 bg-white backdrop-blur shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <img src="images/bnf_logo.png" alt="BNF Logo" class="h-20 bg-white p-2 rounded shadow mr-3">
+        <span class="text-xl font-bold text-green-700">Bridge Niagara Foundation</span>
+      </div>
+      <nav class="hidden md:block">
+        <ul class="flex gap-4 text-sm md:text-base items-center">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="donate.html" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition">Donate</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-green-700 mb-8 text-center">Frequently Asked Questions</h1>
+
+    <div class="space-y-8">
+      <div>
+        <h2 class="text-xl font-semibold">Is my donation tax-deductible?</h2>
+        <p class="text-gray-700">Yes. Bridge Niagara Foundation is a registered 501(c)(3) nonprofit organization. When you donate, you will receive a receipt via email that can be used when filing your taxes. We recommend consulting with a tax professional for full guidance.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Can I donate monthly?</h2>
+        <p class="text-gray-700">Absolutely. When filling out our donation form, you have the option to set up a recurring monthly gift. Monthly donations allow us to plan more effectively and provide consistent support to the families we serve.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Is my information secure?</h2>
+        <p class="text-gray-700">Yes. We use Stripe, one of the most secure payment platforms available. Your credit card and personal information are encrypted and never stored on our website. We also use HTTPS to ensure secure data transfer.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Will I receive a receipt?</h2>
+        <p class="text-gray-700">Yes, an email receipt will be sent immediately after your donation is completed. This receipt will include the donation amount, transaction ID, and our tax-exempt ID. If you don't receive it within a few minutes, please check your spam folder or contact us.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Do you accept check or cash donations?</h2>
+        <p class="text-gray-700">Yes, we accept both. You can mail checks to our office address listed on the Contact page. For cash donations, please contact us to arrange a secure handoff. A receipt can be issued in person or by email.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Can I sponsor a full program?</h2>
+        <p class="text-gray-700">Yes, individuals and organizations can sponsor specific events or full programs such as our Turkey Giveaway or Youth Camps. Sponsorship opportunities come with promotional recognition. Contact us to learn about current sponsorship tiers.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Can I volunteer?</h2>
+        <p class="text-gray-700">Definitely. Volunteers are vital to the success of our programs. Whether you want to help with event logistics, youth engagement, or community outreach, we have a spot for you. Visit the Volunteer page to submit your interest.</p>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t">
+      <h2 class="text-2xl font-semibold text-green-700 mb-4">Still Have Questions?</h2>
+      <form action="#" method="POST" class="space-y-4">
+        <div>
+          <label for="faq-name" class="block font-medium">Your Name</label>
+          <input type="text" id="faq-name" name="faq-name" required class="w-full border px-4 py-2">
+        </div>
+        <div>
+          <label for="faq-email" class="block font-medium">Email Address</label>
+          <input type="email" id="faq-email" name="faq-email" required class="w-full border px-4 py-2">
+        </div>
+        <div>
+          <label for="faq-question" class="block font-medium">Your Question</label>
+          <textarea id="faq-question" name="faq-question" rows="4" class="w-full border px-4 py-2"></textarea>
+        </div>
+        <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded">Submit</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
