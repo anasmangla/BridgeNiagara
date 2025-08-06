@@ -23,6 +23,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/config', (req, res) => {
+  res.json({ mapsApiKey: process.env.GOOGLE_MAPS_API_KEY || '' });
+});
+
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const { amount, mode, name, email, phone } = req.body;
