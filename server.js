@@ -45,6 +45,7 @@ app.post('/create-checkout-session', async (req, res) => {
       ],
       success_url: process.env.SUCCESS_URL,
       cancel_url: process.env.CANCEL_URL,
+      customer_email: email || undefined,
       metadata: {
         name: name || '',
         email: email || '',
