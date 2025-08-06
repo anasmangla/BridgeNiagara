@@ -10,8 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
-    const { amount, custom_amount, mode, name, email, phone } = req.body;
-    const donationAmount = parseInt(custom_amount || amount, 10);
+    const { amount, mode, name, email, phone } = req.body;
+    const donationAmount = parseInt(amount, 10);
+    if (!Number.isInteger(donationAmount) || donationAmount <= 0) {
+      return res.status(400).json({ error: 'Invalid donation amount' });
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: mode || 'payment',
