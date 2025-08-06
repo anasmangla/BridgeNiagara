@@ -17,3 +17,15 @@ PORT=4242
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
 
+## Building CSS
+
+This site uses Tailwind CSS. Generate the stylesheet before deploying:
+
+```
+npm run build:css
+```
+
+## Deployment
+
+Run the Tailwind build command above before publishing the site to ensure `css/tailwind.css` is up to date.
+
