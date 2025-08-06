@@ -63,5 +63,14 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+app.post('/submit-form', (req, res) => {
+  const { name, email, message, formType } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required.' });
+  }
+  console.log(`Form submission (${formType || 'general'}):`, { name, email, message });
+  res.json({ success: true });
+});
+
 const port = process.env.PORT || 4242;
 app.listen(port, () => console.log(`Server running on port ${port}`));
