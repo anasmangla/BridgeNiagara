@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Donate - Bridge Niagara Foundation</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-white text-gray-800">
@@ -14,8 +14,8 @@
 
   <main class="max-w-2xl mx-auto px-4 py-10">
     <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">Support Our Mission</h1>
-    <form id="donation-form" action="/create-checkout-session" method="POST" class="space-y-6">
 
+    <form id="donation-form" class="space-y-6">
       <div>
         <label class="block text-lg font-semibold">Choose Amount</label>
         <div class="flex gap-4 mt-2">
@@ -51,7 +51,8 @@
     document.addEventListener('DOMContentLoaded', function () {
       const tabs = document.querySelectorAll('.donate-tab');
       const modeInput = document.getElementById('donation-mode');
-        const SERVER_URL = 'https://bridge-donation.onrender.com';
+      const form = document.getElementById('donation-form');
+      const SERVER_URL = 'https://bridge-donation.onrender.com'; // ✅ update this to match your deployment
 
       // Prefill donation amount from query parameter
       const params = new URLSearchParams(window.location.search);
@@ -60,17 +61,14 @@
         const presetValues = ['1000', '2000', '5000', '10000'];
         if (presetValues.includes(amountParam)) {
           const radio = document.querySelector(`input[name="amount"][value="${amountParam}"]`);
-          if (radio) {
-            radio.checked = true;
-          }
+          if (radio) radio.checked = true;
         } else {
           const customInput = document.querySelector('input[name="custom_amount"]');
-          if (customInput) {
-            customInput.value = amountParam;
-          }
+          if (customInput) customInput.value = amountParam;
         }
       }
 
+      // Tab switching logic
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => {
@@ -82,42 +80,38 @@
           modeInput.value = tab.dataset.mode;
         });
       });
-        const form = document.getElementById('donation-form');
-        form.addEventListener('submit', async (e) => {
+
+      // Submit logic
+      form.addEventListener('submit', async e => {
         e.preventDefault();
-        const formData = new FormData(form);
-        const response = await fetch(`${SERVER_URL}/create-checkout-session`, {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.json();
-        if (data.url) {
-          window.location = data.url;
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        if (!data.amount) {
+          const custom = parseFloat(data.custom_amount || '0');
+          data.amount = Math.round(custom * 100);
+        } else {
+          data.amount = parseInt(data.amount, 10);
         }
-        });
+        delete data.custom_amount;
+
+        data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
+
+        try {
+          const res = await fetch(`${SERVER_URL}/create-checkout-session`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const { url } = await res.json();
+          if (url) window.location.href = url;
+          else alert('Something went wrong. Please try again.');
+        } catch (err) {
+          console.error('Error:', err);
+          alert('An error occurred while processing your donation.');
+        }
+      });
     });
   </script>
-  <script>
-  document.getElementById('donation-form').addEventListener('submit', async e => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
-    if (!data.amount) {
-      const custom = parseFloat(data.custom_amount || '0');
-      data.amount = Math.round(custom * 100);
-    } else {
-      data.amount = parseInt(data.amount, 10);
-    }
-    delete data.custom_amount;
-    data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
-    const res = await fetch('http://localhost:4242/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const { url } = await res.json();
-    window.location.href = url;
-  });
-  </script>
-<script src="js/header.js"></script>
+
+  <script src="js/header.js"></script>
 </body>
 </html>
