@@ -7,7 +7,13 @@ Module._load = function(request, parent, isMain) {
       return {
         checkout: {
           sessions: {
-            create: async () => ({ url: 'https://example.com/session/mock' })
+            create: async (params) => {
+              const amount = params?.line_items?.[0]?.price_data?.unit_amount;
+              if (amount === 999) {
+                throw new Error('Stripe API error');
+              }
+              return { url: 'https://example.com/session/mock' };
+            }
           }
         }
       };

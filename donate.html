@@ -60,7 +60,7 @@
       <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded shadow transition">Donate Now</button>
     </form>
   </main>
-
+  <script src="js/donationHelpers.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const tabs = document.querySelectorAll('.donate-tab');
@@ -122,15 +122,14 @@
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
-        if (!data.amount) {
-          const custom = parseFloat(data.custom_amount || '0');
-          data.amount = Math.round(custom * 100);
-        } else {
-          data.amount = parseInt(data.amount, 10);
-        }
+        data.amount = donationHelpers.getDonationAmount(data);
         delete data.custom_amount;
 
         data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
+        if (!donationHelpers.isValidAmount(data.amount)) {
+          alert('Please enter a valid donation amount.');
+          return;
+        }
 
         try {
           const res = await fetch(`${SERVER_URL}/create-checkout-session`, {
