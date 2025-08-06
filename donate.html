@@ -18,12 +18,14 @@
     <form id="donation-form" class="space-y-6">
       <div>
         <label class="block text-lg font-semibold">Choose Amount</label>
-        <div class="flex gap-4 mt-2">
-          <input type="radio" name="amount" value="1000" id="a10"><label for="a10">$10</label>
-          <input type="radio" name="amount" value="2000" id="a20"><label for="a20">$20</label>
-          <input type="radio" name="amount" value="5000" id="a50"><label for="a50">$50</label>
-          <input type="radio" name="amount" value="10000" id="a100"><label for="a100">$100</label>
+        <div class="flex flex-wrap gap-4 mt-2">
+          <button type="button" class="amount-btn bg-gray-200 text-gray-800 px-4 py-2 rounded" data-value="10000">$100</button>
+          <button type="button" class="amount-btn bg-gray-200 text-gray-800 px-4 py-2 rounded" data-value="50000">$500</button>
+          <button type="button" class="amount-btn bg-gray-200 text-gray-800 px-4 py-2 rounded" data-value="100000">$1000</button>
+          <button type="button" class="amount-btn bg-gray-200 text-gray-800 px-4 py-2 rounded" data-value="150000">$1500</button>
+          <button type="button" class="amount-btn bg-gray-200 text-gray-800 px-4 py-2 rounded" data-value="200000">$2000</button>
         </div>
+        <input type="hidden" name="amount" id="amount">
         <input type="number" name="custom_amount" placeholder="Or enter custom amount" class="w-full border px-4 py-2 mt-4" min="1">
       </div>
 
@@ -52,6 +54,26 @@
       const tabs = document.querySelectorAll('.donate-tab');
       const modeInput = document.getElementById('donation-mode');
       const form = document.getElementById('donation-form');
+      const amountButtons = document.querySelectorAll('.amount-btn');
+      const amountInput = document.getElementById('amount');
+      const customInput = document.querySelector('input[name="custom_amount"]');
+
+      amountButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          amountButtons.forEach(b => b.classList.remove('bg-green-700', 'text-white'));
+          btn.classList.add('bg-green-700', 'text-white');
+          amountInput.value = btn.dataset.value;
+          if (customInput) customInput.value = '';
+        });
+      });
+
+      if (customInput) {
+        customInput.addEventListener('input', () => {
+          amountInput.value = '';
+          amountButtons.forEach(b => b.classList.remove('bg-green-700', 'text-white'));
+        });
+      }
+
       // Determine base URL from environment or current origin
       const SERVER_URL =
         (typeof window !== 'undefined' && window.SERVER_URL) ||
@@ -62,13 +84,12 @@
       const params = new URLSearchParams(window.location.search);
       const amountParam = params.get('amount');
       if (amountParam) {
-        const presetValues = ['1000', '2000', '5000', '10000'];
+        const presetValues = ['10000', '50000', '100000', '150000', '200000'];
         if (presetValues.includes(amountParam)) {
-          const radio = document.querySelector(`input[name="amount"][value="${amountParam}"]`);
-          if (radio) radio.checked = true;
-        } else {
-          const customInput = document.querySelector('input[name="custom_amount"]');
-          if (customInput) customInput.value = amountParam;
+          const btn = document.querySelector(`.amount-btn[data-value="${amountParam}"]`);
+          if (btn) btn.click();
+        } else if (customInput) {
+          customInput.value = amountParam;
         }
       }
 
