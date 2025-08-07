@@ -4,4 +4,4 @@
 // For example: 'https://api.bridgeniagara.org'
 // If your backend runs on the same domain as the static site, you can use window.location.origin.
 
-window.SERVER_URL = 'https://bridgeniagara.org';
+window.SERVER_URL = window.SERVER_URL || window.location.origin;
