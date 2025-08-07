@@ -1,4 +1,4 @@
-// Donation page interactions
+// Donation page interactions (modified)
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.donate-tab');
   const modeInput = document.getElementById('donation-mode');
@@ -7,6 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const amountInput = document.getElementById('amount');
   const customInput = document.querySelector('input[name="custom_amount"]');
 
+  // Highlight selected preset amount and clear custom input
   amountButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       amountButtons.forEach((b) => b.classList.remove('bg-green-700', 'text-white'));
@@ -16,6 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // If typing custom amount, clear preset selections
   if (customInput) {
     customInput.addEventListener('input', () => {
       amountInput.value = '';
@@ -24,13 +26,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // Determine backend base URL from configuration
-  const SERVER_URL =
+  let SERVER_URL =
     (typeof window !== 'undefined' && window.SERVER_URL) ||
     (typeof process !== 'undefined' && process.env && process.env.SERVER_URL);
-
+  // Default to current origin when not provided
   if (!SERVER_URL) {
-    console.error('SERVER_URL is not defined');
-    return;
+    SERVER_URL = window.location.origin;
   }
 
   // Prefill donation amount from query parameter
@@ -42,11 +43,17 @@ window.addEventListener('DOMContentLoaded', () => {
       const btn = document.querySelector(`.amount-btn[data-value="${amountParam}"]`);
       if (btn) btn.click();
     } else if (customInput) {
-      customInput.value = amountParam;
+      // Convert whole-dollar amounts to cents if necessary
+      const numeric = parseFloat(amountParam);
+      if (!isNaN(numeric) && numeric < 1000) {
+        customInput.value = Math.round(numeric * 100).toString();
+      } else {
+        customInput.value = amountParam;
+      }
     }
   }
 
-  // Tab switching logic
+  // Tab switching logic (one-time vs monthly)
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       tabs.forEach((t) => {
@@ -63,6 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
+    // Use amount from preset or custom; convert to integer cents
     if (!data.amount) {
       const custom = parseFloat(data.custom_amount || '0');
       data.amount = Math.round(custom * 100);
@@ -88,4 +96,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
