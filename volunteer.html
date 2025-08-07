@@ -50,6 +50,14 @@
   const volunteerStatus = document.getElementById('volunteer-status');
   volunteerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    volunteerStatus.textContent = '';
+    const email = document.getElementById('email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      volunteerStatus.textContent = 'Please enter a valid email address.';
+      volunteerStatus.className = 'text-red-700 mt-2';
+      return;
+    }
     if (!volunteerForm.checkValidity()) {
       volunteerForm.reportValidity();
       return;
