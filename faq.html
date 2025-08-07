@@ -115,12 +115,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+      const result = await res.json();
       if (res.ok) {
-        faqStatus.textContent = 'Thanks for your question! We will respond soon.';
+        faqStatus.textContent = result.message || 'Thanks for your question! We will respond soon.';
         faqStatus.className = 'text-green-700 mt-2';
         faqForm.reset();
       } else {
-        faqStatus.textContent = 'Submission failed. Please try again.';
+        faqStatus.textContent = result.error || 'Submission failed. Please try again.';
         faqStatus.className = 'text-red-700 mt-2';
       }
     } catch (err) {

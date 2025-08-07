@@ -70,10 +70,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      let result = {};
-      try {
-        result = await res.json();
-      } catch (_) {}
+      const result = await res.json();
       if (res.ok) {
         volunteerStatus.textContent = result.message || 'Thank you for volunteering! We will contact you soon.';
         volunteerStatus.className = 'text-green-700 mt-2';
