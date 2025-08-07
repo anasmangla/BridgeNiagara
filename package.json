@@ -5,8 +5,6 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "build:css": "tailwindcss -i ./src/tailwind.css -o ./css/tailwind.css --minify",
-    "build": "npm run build:css",
     "test": "node run-tests.js",
     "lint": "eslint ."
   },
