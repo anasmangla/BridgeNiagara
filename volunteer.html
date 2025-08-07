@@ -50,6 +50,14 @@
   const volunteerStatus = document.getElementById('volunteer-status');
   volunteerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    volunteerStatus.textContent = '';
+    const email = document.getElementById('email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      volunteerStatus.textContent = 'Please enter a valid email address.';
+      volunteerStatus.className = 'text-red-700 mt-2';
+      return;
+    }
     if (!volunteerForm.checkValidity()) {
       volunteerForm.reportValidity();
       return;
@@ -62,12 +70,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+      const result = await res.json();
       if (res.ok) {
-        volunteerStatus.textContent = 'Thank you for volunteering! We will contact you soon.';
+        volunteerStatus.textContent = result.message || 'Thank you for volunteering! We will contact you soon.';
         volunteerStatus.className = 'text-green-700 mt-2';
         volunteerForm.reset();
       } else {
-        volunteerStatus.textContent = 'Submission failed. Please try again.';
+        volunteerStatus.textContent = result.error || 'Submission failed. Please try again.';
         volunteerStatus.className = 'text-red-700 mt-2';
       }
     } catch (err) {
