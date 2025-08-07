@@ -26,12 +26,23 @@ const app = express();
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 app.use(limiter);
 
+const defaultAllowedOrigins = [
+  'https://bridgeniagara.org',
+  'https://www.bridgeniagara.org',
+];
 const envAllowedOrigins = ALLOWED_ORIGINS;
 // When ALLOWED_ORIGINS is not set, default to reflecting the request origin
 // so that same-origin requests are permitted without extra configuration.
 const allowedOrigins = envAllowedOrigins
-  ? envAllowedOrigins.split(',').map((o) => o.trim())
-  : null;
+  ? Array.from(
+      new Set(
+        envAllowedOrigins
+          .split(',')
+          .map((o) => o.trim())
+          .concat(defaultAllowedOrigins)
+      )
+    )
+  : defaultAllowedOrigins;
 
 const corsOptions = !allowedOrigins || allowedOrigins.includes('*')
   ? { origin: true }
