@@ -3,56 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
+  <meta property="og:title" content="Bridge Niagara Foundation" />
+  <meta property="og:description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeniagara.org/index.html" />
+  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bridge Niagara Foundation" />
+  <meta name="twitter:description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
+  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Bridge Niagara Foundation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
 </head>
 <body class="bg-white text-gray-800">
-  <header class="sticky top-0 bg-white backdrop-blur shadow z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <img src="images/bnf_logo.png" alt="BNF Logo" class="h-20 bg-white p-2 rounded shadow mr-3">
-        <span class="text-xl font-bold text-green-700">Bridge Niagara Foundation</span>
-      </div>
-      <nav class="hidden md:block">
-        <ul class="flex gap-4 text-sm md:text-base items-center">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="programs.html">Programs</a></li>
-          <li><a href="volunteer.html">Volunteer</a></li>
-          <li><a href="donate.html" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition">Donate</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <div id="header"></div>
 
-  <main>
+  <main class="max-w-5xl mx-auto">
     <!-- Hero Section -->
-    <section class="relative">
-      <img src="images/hero.jpg" alt="Hero Banner" class="w-full h-[70vh] object-cover">
-      <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-center px-4">
-        <div class="text-white max-w-3xl">
+    <section class="relative h-[80vh] lg:grid lg:grid-cols-2">
+      <div class="relative h-full">
+        <img src="images/hero.jpg" alt="Hero Banner" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/50"></div>
+      </div>
+      <div class="flex items-center justify-center text-center px-4">
+        <div class="text-white">
+
           <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Empowering Families. Building Community.</h1>
           <p class="text-lg md:text-xl mb-6">Bridge Niagara Foundation connects resources with compassion to uplift those in need across Niagara Falls and beyond.</p>
-          <a href="donate.html" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 text-lg rounded shadow transition">Donate Now</a>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
+            <a href="donate.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-lg rounded shadow transition">Donate Now</a>
+            <a href="turkey-giveaway.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-lg rounded shadow transition">Turkey Giveaway Info</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Placeholder Intro Section -->
-    <section class="max-w-5xl mx-auto py-12 px-4 text-center">
-      <h2 class="text-2xl font-semibold text-green-700 mb-4">Our Mission</h2>
-      <p class="text-gray-700 text-lg leading-relaxed">
-        We serve the underrepresented and under-resourced communities of Western New York through outreach programs, community support, and youth engagement. Join us in bridging the gap with dignity, service, and love.
-      </p>
-    </section>
   </main>
+
+<div id="footer"></div>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
 </body>
 </html>

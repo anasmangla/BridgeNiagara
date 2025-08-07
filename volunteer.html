@@ -3,38 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta property="og:title" content="Volunteer - Bridge Niagara Foundation" />
+  <meta property="og:description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeniagara.org/volunteer.html" />
+  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Volunteer - Bridge Niagara Foundation" />
+  <meta name="twitter:description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Volunteer - Bridge Niagara Foundation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-white text-gray-800">
   <!-- Navigation -->
-  <header class="sticky top-0 bg-white backdrop-blur shadow z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <img src="images/bnf_logo.png" alt="BNF Logo" class="h-20 bg-white p-2 rounded shadow mr-3">
-        <span class="text-xl font-bold text-green-700">Bridge Niagara Foundation</span>
-      </div>
-      <nav class="hidden md:block">
-        <ul class="flex gap-4 text-sm md:text-base items-center">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="programs.html">Programs</a></li>
-          <li><a href="volunteer.html">Volunteer</a></li>
-          <li><a href="donate.html" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition">Donate</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <div id="header"></div>
 
-  <main class="max-w-3xl mx-auto px-4 py-12">
+  <main class="max-w-5xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-green-700 mb-4">Volunteer with Us</h1>
     <p class="text-gray-700 mb-6">We welcome individuals of all ages and backgrounds to help out with our programs, events, and outreach efforts. Fill out the form below and we’ll reach out with upcoming opportunities.</p>
 
-    <form action="#" method="POST" class="space-y-4">
+    <form id="volunteer-form" action="/submit-form" method="POST" class="space-y-4">
       <div>
         <label for="name" class="block font-medium">Full Name</label>
         <input type="text" id="name" name="name" required class="w-full border px-4 py-2">
@@ -47,8 +40,51 @@
         <label for="message" class="block font-medium">Tell us how you’d like to help</label>
         <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2"></textarea>
       </div>
-      <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded">Submit</button>
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Submit</button>
     </form>
+    <p id="volunteer-status" class="text-sm mt-2"></p>
   </main>
+<script>
+  const volunteerForm = document.getElementById('volunteer-form');
+  const volunteerStatus = document.getElementById('volunteer-status');
+  volunteerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    volunteerStatus.textContent = '';
+    const email = document.getElementById('email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      volunteerStatus.textContent = 'Please enter a valid email address.';
+      volunteerStatus.className = 'text-red-700 mt-2';
+      return;
+    }
+    if (!volunteerForm.checkValidity()) {
+      volunteerForm.reportValidity();
+      return;
+    }
+    const data = Object.fromEntries(new FormData(volunteerForm).entries());
+    data.formType = 'volunteer';
+    try {
+      const res = await fetch(volunteerForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (res.ok) {
+        volunteerStatus.textContent = result.message || 'Thank you for volunteering! We will contact you soon.';
+        volunteerStatus.className = 'text-green-700 mt-2';
+        volunteerForm.reset();
+      } else {
+        volunteerStatus.textContent = result.error || 'Submission failed. Please try again.';
+        volunteerStatus.className = 'text-red-700 mt-2';
+      }
+    } catch (err) {
+      volunteerStatus.textContent = 'An error occurred. Please try again.';
+      volunteerStatus.className = 'text-red-700 mt-2';
+    }
+  });
+</script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
 </body>
 </html>
