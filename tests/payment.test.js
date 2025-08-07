@@ -9,8 +9,7 @@ const { spawn } = require('child_process');
       SUCCESS_URL: 'https://example.com/success',
       CANCEL_URL: 'https://example.com/cancel',
       ALLOWED_ORIGINS: '*',
-      PORT: '5555',
-      NODE_OPTIONS: '--require=./tests/stripe-mock.js'
+      PORT: '5555'
     },
     stdio: 'inherit'
   });
