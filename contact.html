@@ -36,46 +36,81 @@
     <p><strong>Phone:</strong> (716) 531-2075</p>
     <p><strong>Email:</strong> <a href="mailto:info@bridgeniagara.org" class="text-blue-600">info@bridgeniagara.org</a></p>
   </div>
+
+  <form id="contact-form" action="/submit-form" method="POST" class="mt-8 space-y-4">
+    <div>
+      <label for="name" class="block font-medium">Name</label>
+      <input type="text" id="name" name="name" required class="w-full border px-4 py-2 rounded">
+      <p id="name-error" class="text-red-700 text-sm mt-1 hidden">Name is required.</p>
+    </div>
+    <div>
+      <label for="email" class="block font-medium">Email</label>
+      <input type="email" id="email" name="email" required class="w-full border px-4 py-2 rounded">
+      <p id="email-error" class="text-red-700 text-sm mt-1 hidden">Email is required.</p>
+    </div>
+    <div>
+      <label for="message" class="block font-medium">Message</label>
+      <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2 rounded"></textarea>
+    </div>
+    <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded">Send</button>
+  </form>
+  <p id="contact-status" class="text-sm mt-2"></p>
 </main>
 
 <div id="footer"></div>
-<script src="js/header.js"></script>
 <script>
-  (async () => {
-    try {
-      const res = await fetch('/config');
-      const { mapsApiKey } = await res.json();
-      if (!mapsApiKey) return;
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&callback=initMap`;
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-    } catch (err) {
-      console.error('Error loading Google Maps', err);
+  const contactForm = document.getElementById('contact-form');
+  const statusEl = document.getElementById('contact-status');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const nameError = document.getElementById('name-error');
+  const emailError = document.getElementById('email-error');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let valid = true;
+    if (!nameInput.value.trim()) {
+      nameError.classList.remove('hidden');
+      nameInput.classList.add('border-red-500');
+      valid = false;
+    } else {
+      nameError.classList.add('hidden');
+      nameInput.classList.remove('border-red-500');
     }
-  })();
-
-  window.initMap = function () {
-    const mapEl = document.getElementById('map');
-    if (!mapEl) return;
-    const map = new google.maps.Map(mapEl, {
-      zoom: 15,
-      center: { lat: 43.094, lng: -79.02 },
-    });
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: '6951 Williams Road, Niagara Falls, NY 14304' }, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        map.setCenter(results[0].geometry.location);
-        new google.maps.Marker({
-          map,
-          position: results[0].geometry.location,
-        });
+    if (!emailInput.value.trim()) {
+      emailError.classList.remove('hidden');
+      emailInput.classList.add('border-red-500');
+      valid = false;
+    } else {
+      emailError.classList.add('hidden');
+      emailInput.classList.remove('border-red-500');
+    }
+    if (!valid) return;
+    const data = {
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      message: document.getElementById('message').value.trim(),
+      formType: 'contact'
+    };
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        statusEl.textContent = 'Thank you for contacting us!';
+        statusEl.className = 'text-green-700 mt-2';
+        contactForm.reset();
+      } else {
+        statusEl.textContent = 'Submission failed. Please try again.';
+        statusEl.className = 'text-red-700 mt-2';
       }
-    });
-
-    const fallback = document.getElementById('map-fallback');
-    if (fallback) fallback.style.display = 'none';
-  };
+    } catch (err) {
+      statusEl.textContent = 'An error occurred. Please try again.';
+      statusEl.className = 'text-red-700 mt-2';
+    }
+  });
 </script>
+<script src="js/header.js"></script>
 </body></html>

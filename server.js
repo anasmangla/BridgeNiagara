@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const fs = require('fs/promises');
 const { STRIPE_SECRET_KEY, SUCCESS_URL, CANCEL_URL } = process.env;
 
 if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
@@ -84,13 +85,38 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.post('/submit-form', (req, res) => {
+app.post('/submit-form', async (req, res) => {
   const { name, email, message, formType } = req.body;
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and email are required.' });
   }
-  console.log(`Form submission (${formType || 'general'}):`, { name, email, message });
-  res.json({ success: true });
+
+  try {
+    const submission = {
+      name,
+      email,
+      message: message || '',
+      formType: formType || 'general',
+      date: new Date().toISOString(),
+    };
+
+    await fs.mkdir('data', { recursive: true });
+    const filePath = 'data/submissions.json';
+    let submissions = [];
+    try {
+      const existing = await fs.readFile(filePath, 'utf8');
+      submissions = JSON.parse(existing);
+    } catch (err) {
+      if (err.code !== 'ENOENT') throw err;
+    }
+    submissions.push(submission);
+    await fs.writeFile(filePath, JSON.stringify(submissions, null, 2));
+
+    res.json({ message: 'Form submitted successfully.' });
+  } catch (err) {
+    console.error('Failed to store form submission:', err);
+    res.status(500).json({ error: 'Failed to process submission.' });
+  }
 });
 
 const port = process.env.PORT || 4242;
