@@ -138,9 +138,16 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
-          const { url } = await res.json();
-          if (url) window.location.href = url;
-          else alert('Something went wrong. Please try again.');
+          const contentType = res.headers.get('content-type') || '';
+          if (res.ok && contentType.includes('application/json')) {
+            const { url } = await res.json();
+            if (url) window.location.href = url;
+            else alert('Something went wrong. Please try again.');
+          } else {
+            const body = await res.text();
+            console.error('Unexpected response:', res.status, body);
+            alert('An error occurred while processing your donation.');
+          }
         } catch (err) {
           console.error('Error:', err);
           alert('An error occurred while processing your donation.');
