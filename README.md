@@ -52,6 +52,7 @@ Execute the test suite:
 npm test
 ```
 
+
 ## Deploying to Hosting Platforms
 
 - **Vercel** – Set the environment variables in the project settings. Use `npm start` as the start command or create a Serverless Function.
