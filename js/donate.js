@@ -79,6 +79,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     delete data.custom_amount;
 
+    if (!Number.isInteger(data.amount) || data.amount <= 0) {
+      alert('Please enter a valid donation amount.');
+      return;
+    }
+
     data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
 
     try {
@@ -87,16 +92,16 @@ window.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const { url, error } = await res.json();
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to create session');
+      }
+      const { url } = await res.json();
       if (url) {
         window.location.href = url;
-      } else {
-        console.error('Checkout session error:', error);
-        alert(error);
       }
     } catch (err) {
-      console.error('Error:', err);
-      alert('An error occurred while processing your donation.');
+      alert(err.message);
     }
   });
 });
