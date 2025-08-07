@@ -1,6 +1,8 @@
-// Program slider logic
+// Hero slider next/prev logic
 window.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.program-slide');
+  const slides = document.querySelectorAll('.hero-slide');
+  const nextBtn = document.querySelector('[data-hero-next]');
+  const prevBtn = document.querySelector('[data-hero-prev]');
   let index = 0;
 
   function showSlide(i) {
@@ -9,28 +11,17 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function nextSlide() {
-    index = (index + 1) % slides.length;
+  if (slides.length && nextBtn && prevBtn) {
     showSlide(index);
-  }
 
-  function prevSlide() {
-    index = (index - 1 + slides.length) % slides.length;
-    showSlide(index);
-  }
+    nextBtn.addEventListener('click', () => {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    });
 
-  if (slides.length) {
-    showSlide(index);
-    const nextBtn = document.querySelector('[data-program-next]');
-    const prevBtn = document.querySelector('[data-program-prev]');
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', nextSlide);
-    }
-    if (prevBtn) {
-      prevBtn.addEventListener('click', prevSlide);
-    }
-
-    setInterval(nextSlide, 5000);
+    prevBtn.addEventListener('click', () => {
+      index = (index - 1 + slides.length) % slides.length;
+      showSlide(index);
+    });
   }
 });
