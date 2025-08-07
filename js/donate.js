@@ -23,11 +23,15 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Determine base URL from environment or current origin
+  // Determine backend base URL from configuration
   const SERVER_URL =
     (typeof window !== 'undefined' && window.SERVER_URL) ||
-    (typeof process !== 'undefined' && process.env && process.env.SERVER_URL) ||
-    window.location.origin;
+    (typeof process !== 'undefined' && process.env && process.env.SERVER_URL);
+
+  if (!SERVER_URL) {
+    console.error('SERVER_URL is not defined');
+    return;
+  }
 
   // Prefill donation amount from query parameter
   const params = new URLSearchParams(window.location.search);
