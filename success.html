@@ -16,11 +16,45 @@
   <title>Thank You - Bridge Niagara</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          // Add any site-specific colors or settings here
+        }
+      },
+      plugins: [
+        function({ addComponents }) {
+          addComponents({
+            '.donate-btn': {
+              backgroundColor: '#dc2626',
+              color: '#fff',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '0.25rem',
+              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              width: '100%',
+              transition: 'background-color 0.2s ease',
+              '&:hover': { backgroundColor: '#b91c1c' },
+              '@screen sm': { width: 'auto' }
+            }
+          });
+        }
+      ]
+    }
+  </script>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col font-[Inter]">
   <div id="header"></div>
   <main class="flex-grow flex flex-col justify-center items-center px-4">
     <div class="max-w-5xl mx-auto text-center">
