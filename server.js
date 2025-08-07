@@ -102,7 +102,7 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 app.post('/submit-form', async (req, res) => {
-  const { name, email, message, formType } = req.body;
+  const { name, email, phone, program, availability, message, formType } = req.body;
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and email are required.' });
   }
@@ -111,6 +111,9 @@ app.post('/submit-form', async (req, res) => {
     const submission = {
       name,
       email,
+      phone: phone || '',
+      program: program || '',
+      availability: availability || '',
       message: message || '',
       formType: formType || 'general',
       date: new Date().toISOString(),
