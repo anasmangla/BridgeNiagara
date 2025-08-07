@@ -52,11 +52,8 @@ Execute the test suite:
 npm test
 ```
 
-Tailwind CSS is loaded from https://cdn.tailwindcss.com, so no CSS build step is required.
 
 ## Deploying to Hosting Platforms
-
-Tailwind CSS is served via CDN, so no CSS build step is needed before deploying.
 
 - **Vercel** – Set the environment variables in the project settings. Use `npm start` as the start command or create a Serverless Function.
 - **Netlify** – Add the same environment variables and serve the `server.js` file via a Netlify Function or an external server.
