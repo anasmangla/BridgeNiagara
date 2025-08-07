@@ -2,3 +2,8 @@
 # php -- BEGIN cPanel-generated handler, do not edit
 # This domain inherits the “PHP” package.
 # php -- END cPanel-generated handler, do not edit
+# Redirect root to index.html while preserving HTTPS and trailing slashes
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^$ index.html [L,R=301]
+
