@@ -87,9 +87,13 @@ window.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const { url } = await res.json();
-      if (url) window.location.href = url;
-      else alert('Something went wrong. Please try again.');
+      const { url, error } = await res.json();
+      if (url) {
+        window.location.href = url;
+      } else {
+        console.error('Checkout session error:', error);
+        alert(error);
+      }
     } catch (err) {
       console.error('Error:', err);
       alert('An error occurred while processing your donation.');
