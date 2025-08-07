@@ -5,5 +5,5 @@
 # Redirect root to index.html while preserving HTTPS and trailing slashes
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/$
-RewriteRule ^$ index.html [L,R=301]
+RewriteRule ^$ /index.html [L,R=301]
 

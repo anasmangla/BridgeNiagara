@@ -52,33 +52,23 @@ Execute the test suite:
 npm test
 ```
 
-## Building Static Assets
-
-This site uses Tailwind CSS. Generate the stylesheet before deploying:
-
-```
-npm run build:css
-```
 
 ## Deploying to Hosting Platforms
 
-Before deploying, run `npm run build:css` so `css/tailwind.css` is current.
-
-- **Vercel** – Set the environment variables in the project settings and configure a build step of `npm run build:css`. Use `npm start` as the start command or create a Serverless Function.
-- **Netlify** – Add the same environment variables, run `npm run build:css` during build, and serve the `server.js` file via a Netlify Function or an external server.
-- **cPanel or traditional hosting** – Upload the repository, install dependencies on the server, set the environment variables through the hosting control panel, build the CSS, and run `node server.js` using a process manager like `pm2`.
+- **Vercel** – Set the environment variables in the project settings. Use `npm start` as the start command or create a Serverless Function.
+- **Netlify** – Add the same environment variables and serve the `server.js` file via a Netlify Function or an external server.
+- **cPanel or traditional hosting** – Upload the repository, install dependencies on the server, set the environment variables through the hosting control panel, and run `node server.js` using a process manager like `pm2`.
 
 ## Troubleshooting
 
 - **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` are present in `.env`.
 - **CORS errors** – Ensure `ALLOWED_ORIGINS` matches the domains making requests.
-- **CSS not updating** – Run `npm run build:css` and confirm the output file exists at `css/tailwind.css`.
 
 ## Contributing
 
-Pull requests are welcome. Please run `npm test` and `npm run build:css` before submitting.
+Pull requests are welcome. Please run `npm test` before submitting.
 
 ## CI / Deployment
 
-In continuous integration or deployment pipelines, run the tests and CSS build before releasing changes.
+In continuous integration or deployment pipelines, run the tests before releasing changes.
 
