@@ -1,6 +1,6 @@
 // Inject shared header on pages
 window.addEventListener('DOMContentLoaded', () => {
-  fetch('header.html')
+  fetch('/header.html')
     .then((response) => response.text())
     .then((html) => {
       const container = document.getElementById('header');
