@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#fef6e4"/>
+  <!-- ground -->
+  <rect y="300" width="800" height="100" fill="#cdb4db"/>
+  <!-- left person -->
+  <circle cx="200" cy="220" r="40" fill="#ffc8dd"/>
+  <rect x="180" y="260" width="40" height="80" fill="#ffafcc"/>
+  <!-- middle person -->
+  <circle cx="400" cy="200" r="50" fill="#bde0fe"/>
+  <rect x="375" y="250" width="50" height="90" fill="#a2d2ff"/>
+  <!-- right person -->
+  <circle cx="600" cy="220" r="40" fill="#ffcad4"/>
+  <rect x="580" y="260" width="40" height="80" fill="#f4a2b0"/>
+  <!-- leaves -->
+  <g fill="#ffb703">
+    <circle cx="100" cy="100" r="8"/>
+    <circle cx="150" cy="80" r="6"/>
+    <circle cx="700" cy="120" r="7"/>
+    <circle cx="650" cy="60" r="5"/>
+    <circle cx="400" cy="50" r="6"/>
+    <circle cx="500" cy="90" r="7"/>
+  </g>
+</svg>
