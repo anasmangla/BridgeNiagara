@@ -1,64 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
-  <meta property="og:title" content="Bridge Niagara Foundation" />
-  <meta property="og:description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bridgeniagara.org/index.html" />
-  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Bridge Niagara Foundation" />
-  <meta name="twitter:description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support." />
-  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bridge Niagara Foundation connects resources with compassion to uplift Niagara Falls families through community programs and support.">
   <title>Bridge Niagara Foundation</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/custom.css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: { sans: ['Inter', 'sans-serif'] },
-        // Add any site-specific colors or settings here
-      }
-    },
-    plugins: [
-      function({ addComponents }) {
-        addComponents({
-          '.donate-btn': {
-            backgroundColor: '#dc2626',
-            color: '#fff',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '0.25rem',
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            width: '100%',
-            transition: 'background-color 0.2s ease',
-            '&:hover': { backgroundColor: '#b91c1c' },
-            '@screen sm': { width: 'auto' }
-          }
-        });
-      }
-    ]
-  }
-</script>
-
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    body{font-family:'Inter',sans-serif;}
+    .donate-btn{background-color:#dc2626;color:#fff;padding:0.75rem 1.5rem;border-radius:0.25rem;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;transition:background-color .2s ease;}
+    .donate-btn:hover{background-color:#b91c1c;}
+    @media(min-width:640px){.donate-btn{width:auto;}}
+  </style>
 </head>
-<body class="bg-white text-gray-800 font-[Inter]">
+<body class="bg-white text-gray-800">
   <div id="header"></div>
-
   <main class="max-w-5xl mx-auto">
-    <!-- Hero Section -->
     <section class="relative h-[80vh] lg:grid lg:grid-cols-2">
       <div class="relative h-full">
         <img src="images/hero.jpg" alt="Hero Banner" class="w-full h-full object-cover">
@@ -66,21 +24,18 @@
       </div>
       <div class="flex items-center justify-center text-center px-4">
         <div class="text-white">
-
           <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Empowering Families. Building Community.</h1>
           <p class="text-lg md:text-xl mb-6">Bridge Niagara Foundation connects resources with compassion to uplift those in need across Niagara Falls and beyond.</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
-            <a href="donate.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-lg rounded shadow transition">Donate Now</a>
-            <a href="turkey-giveaway.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 text-lg rounded shadow transition">Turkey Giveaway Info</a>
+            <a href="donate.html" class="donate-btn">Donate Now</a>
+            <a href="turkey-giveaway.html" class="donate-btn">Turkey Giveaway Info</a>
           </div>
         </div>
       </div>
     </section>
-
   </main>
-
-<div id="footer"></div>
-<script src="js/header.js"></script>
-<script src="js/footer.js"></script>
+  <div id="footer"></div>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
 </body>
 </html>
