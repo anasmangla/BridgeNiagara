@@ -26,11 +26,8 @@
 
 <main class="container mx-auto px-4 py-10">
   <h1 class="text-3xl font-bold text-green-700 mb-6">Contact Us</h1>
-  <iframe id="map" class="w-full h-80 rounded shadow-md border" loading="lazy" allowfullscreen
-    referrerpolicy="no-referrer-when-downgrade"
-    src="https://maps.google.com/maps?q=6951+Williams+Road,+Niagara+Falls,+NY+14304&output=embed"
-    title="Bridge Niagara Foundation location map"></iframe>
-  <p class="p-4">Map cannot be displayed. View our location on
+  <div id="map" class="w-full h-80 rounded shadow-md border"></div>
+  <p id="map-fallback" class="p-4">Map cannot be displayed. View our location on
     <a href="https://maps.google.com/?q=6951+Williams+Road,+Niagara+Falls,+NY+14304" class="text-blue-600 underline">Google Maps</a>.
   </p>
   <p class="mt-2 text-sm">Can't view the map? Our address is 6951 Williams Road, Niagara Falls, NY 14304.</p>
@@ -43,4 +40,42 @@
 
 <div id="footer"></div>
 <script src="js/header.js"></script>
+<script>
+  (async () => {
+    try {
+      const res = await fetch('/config');
+      const { mapsApiKey } = await res.json();
+      if (!mapsApiKey) return;
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    } catch (err) {
+      console.error('Error loading Google Maps', err);
+    }
+  })();
+
+  window.initMap = function () {
+    const mapEl = document.getElementById('map');
+    if (!mapEl) return;
+    const map = new google.maps.Map(mapEl, {
+      zoom: 15,
+      center: { lat: 43.094, lng: -79.02 },
+    });
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: '6951 Williams Road, Niagara Falls, NY 14304' }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        map.setCenter(results[0].geometry.location);
+        new google.maps.Marker({
+          map,
+          position: results[0].geometry.location,
+        });
+      }
+    });
+
+    const fallback = document.getElementById('map-fallback');
+    if (fallback) fallback.style.display = 'none';
+  };
+</script>
 </body></html>
