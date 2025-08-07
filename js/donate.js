@@ -79,6 +79,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     delete data.custom_amount;
 
+    if (!Number.isInteger(data.amount) || data.amount <= 0) {
+      alert('Please enter a valid donation amount.');
+      return;
+    }
+
     data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
 
     try {
