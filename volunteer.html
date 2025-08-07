@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta property="og:title" content="Volunteer - Bridge Niagara Foundation" />
+  <meta property="og:description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeniagara.org/volunteer.html" />
+  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Volunteer - Bridge Niagara Foundation" />
+  <meta name="twitter:description" content="Join Bridge Niagara Foundation as a volunteer to support community events, outreach, and youth programs across Niagara." />
+  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Volunteer - Bridge Niagara Foundation</title>
   <link rel="stylesheet" href="css/tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +28,7 @@
     <h1 class="text-3xl font-bold text-green-700 mb-4">Volunteer with Us</h1>
     <p class="text-gray-700 mb-6">We welcome individuals of all ages and backgrounds to help out with our programs, events, and outreach efforts. Fill out the form below and we’ll reach out with upcoming opportunities.</p>
 
-    <form action="#" method="POST" class="space-y-4">
+    <form id="volunteer-form" action="/submit-form" method="POST" class="space-y-4">
       <div>
         <label for="name" class="block font-medium">Full Name</label>
         <input type="text" id="name" name="name" required class="w-full border px-4 py-2">
@@ -33,9 +43,39 @@
       </div>
       <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded">Submit</button>
     </form>
+    <p id="volunteer-status" class="text-sm mt-2"></p>
   </main>
-
-<div id="footer"></div>
+<script>
+  const volunteerForm = document.getElementById('volunteer-form');
+  const volunteerStatus = document.getElementById('volunteer-status');
+  volunteerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!volunteerForm.checkValidity()) {
+      volunteerForm.reportValidity();
+      return;
+    }
+    const data = Object.fromEntries(new FormData(volunteerForm).entries());
+    data.formType = 'volunteer';
+    try {
+      const res = await fetch(volunteerForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        volunteerStatus.textContent = 'Thank you for volunteering! We will contact you soon.';
+        volunteerStatus.className = 'text-green-700 mt-2';
+        volunteerForm.reset();
+      } else {
+        volunteerStatus.textContent = 'Submission failed. Please try again.';
+        volunteerStatus.className = 'text-red-700 mt-2';
+      }
+    } catch (err) {
+      volunteerStatus.textContent = 'An error occurred. Please try again.';
+      volunteerStatus.className = 'text-red-700 mt-2';
+    }
+  });
+</script>
 <script src="js/header.js"></script>
 <script src="js/footer.js"></script>
 </body>

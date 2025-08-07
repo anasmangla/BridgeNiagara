@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Support Bridge Niagara Foundation's programs by making a secure one-time or monthly donation through our online form." />
+  <meta property="og:title" content="Donate - Bridge Niagara Foundation" />
+  <meta property="og:description" content="Support Bridge Niagara Foundation's programs by making a secure one-time or monthly donation through our online form." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeniagara.org/donate.html" />
+  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donate - Bridge Niagara Foundation" />
+  <meta name="twitter:description" content="Support Bridge Niagara Foundation's programs by making a secure one-time or monthly donation through our online form." />
+  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Donate - Bridge Niagara Foundation</title>
   <link rel="stylesheet" href="css/tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +61,7 @@
     </form>
   </main>
 
-<div id="footer"></div>
+  <script src="js/donationHelpers.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const tabs = document.querySelectorAll('.donate-tab');
@@ -113,15 +123,14 @@
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
-        if (!data.amount) {
-          const custom = parseFloat(data.custom_amount || '0');
-          data.amount = Math.round(custom * 100);
-        } else {
-          data.amount = parseInt(data.amount, 10);
-        }
+        data.amount = donationHelpers.getDonationAmount(data);
         delete data.custom_amount;
 
         data.mode = data.mode === 'subscription' ? 'subscription' : 'payment';
+        if (!donationHelpers.isValidAmount(data.amount)) {
+          alert('Please enter a valid donation amount.');
+          return;
+        }
 
         try {
           const res = await fetch(`${SERVER_URL}/create-checkout-session`, {

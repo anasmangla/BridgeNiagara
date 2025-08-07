@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Get in touch with Bridge Niagara Foundation for questions, support, or directions to our Niagara Falls office." />
+  <meta property="og:title" content="Contact Us - Bridge Niagara Foundation" />
+  <meta property="og:description" content="Get in touch with Bridge Niagara Foundation for questions, support, or directions to our Niagara Falls office." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeniagara.org/contact.html" />
+  <meta property="og:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact Us - Bridge Niagara Foundation" />
+  <meta name="twitter:description" content="Get in touch with Bridge Niagara Foundation for questions, support, or directions to our Niagara Falls office." />
+  <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Contact Us - Bridge Niagara Foundation</title>
   <link rel="stylesheet" href="css/tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,10 +26,14 @@
 
 <main class="container mx-auto px-4 py-10">
   <h1 class="text-3xl font-bold text-green-700 mb-6">Contact Us</h1>
-  <iframe class="w-full h-80 rounded shadow-md border" loading="lazy" allowfullscreen
+  <iframe id="map" class="w-full h-80 rounded shadow-md border" loading="lazy" allowfullscreen
     referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBcSwofl26LWQamNTT43DyYBlZ9qpQTIOk&q=6951+Williams+Road,+Niagara+Falls,+NY+14304">
+    title="Bridge Niagara Foundation location map">
+    <p class="p-4">Map cannot be displayed. View our location on
+      <a href="https://maps.google.com/?q=6951+Williams+Road,+Niagara+Falls,+NY+14304" class="text-blue-600 underline">Google Maps</a>.
+    </p>
   </iframe>
+  <p class="mt-2 text-sm">Can't view the map? Our address is 6951 Williams Road, Niagara Falls, NY 14304.</p>
   <div class="mt-6 text-lg">
     <p><strong>Address:</strong> 6951 Williams Road, Niagara Falls, NY 14304</p>
     <p><strong>Phone:</strong> (716) 531-2075</p>
@@ -29,6 +43,5 @@
 
 <div id="footer"></div>
 <script src="js/header.js"></script>
-<script src="js/footer.js"></script>
-</body>
-</html>
+<script src="js/map.js"></script>
+</body></html>
