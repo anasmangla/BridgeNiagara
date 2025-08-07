@@ -11,11 +11,14 @@ const app = express();
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 app.use(limiter);
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
-  : [];
+const envAllowedOrigins = process.env.ALLOWED_ORIGINS;
+// When ALLOWED_ORIGINS is not set, default to reflecting the request origin
+// so that same-origin requests are permitted without extra configuration.
+const allowedOrigins = envAllowedOrigins
+  ? envAllowedOrigins.split(',').map((o) => o.trim())
+  : null;
 
-const corsOptions = allowedOrigins.includes('*')
+const corsOptions = !allowedOrigins || allowedOrigins.includes('*')
   ? { origin: true }
   : {
       origin: (origin, callback) => {

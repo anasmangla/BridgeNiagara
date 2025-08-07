@@ -20,6 +20,7 @@ SUCCESS_URL=https://your-domain.example/success.html
 CANCEL_URL=https://your-domain.example/cancel.html
 SERVER_URL=https://your-backend-domain
 PORT=4242
+ALLOWED_ORIGINS=https://your-frontend.example
 ```
 
 - Never commit the `.env` file.
@@ -27,6 +28,10 @@ PORT=4242
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
 - The donation page requires a valid backend URL. Copy `js/config.example.js` to `js/config.js` and
   set `window.SERVER_URL` to match `SERVER_URL` above or define `SERVER_URL` via your build system.
+
+If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
+the page making the request. To restrict cross-origin requests, provide a comma-separated list of
+allowed origins or set `ALLOWED_ORIGINS=*` to permit any origin.
 
 ## Running the Express server
 
