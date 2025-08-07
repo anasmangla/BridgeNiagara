@@ -18,18 +18,51 @@
     @media(min-width:640px){.donate-btn{width:auto;}}
   </style>
 </head>
-<body class="bg-white text-gray-800">
+  <body class="bg-white text-gray-800">
   <div id="header"></div>
-  <main class="max-w-5xl mx-auto px-4 py-12 space-y-6">
-    <h1 class="text-3xl font-bold text-green-700">Annual Turkey Giveaway</h1>
-    <p class="text-gray-700">Each November we distribute hundreds of turkeys to families in need across Niagara Falls. Registration opens in October and pickup takes place the week before Thanksgiving.</p>
-    <p class="text-gray-700">Check back here for updates or follow us on social media for announcements. Questions can be sent to <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a>.</p>
-    <div>
-      <a href="faq.html" class="text-green-700 underline">Turkey Giveaway FAQ</a>
-    </div>
+  <main>
+    <section class="relative h-96 md:h-[60vh] flex items-center justify-center text-center">
+      <img src="images/turkey2025.png" alt="Turkeys prepared for giveaway" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative text-white px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">9th Annual Turkey Giveaway</h1>
+        <p class="text-lg md:text-xl mb-6">November 20, 2025 &middot; 4:30 p.m.<br/>Harry F. Abate Elementary<br/>1600 11th St, Niagara Falls, NY 14305</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="volunteer.html" class="donate-btn">Volunteer</a>
+          <a href="donate.html" class="donate-btn">Donate Now</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 py-12 space-y-6">
+      <p class="text-gray-700">Each November we distribute hundreds of turkeys to families in need across Niagara Falls. Registration opens in October and pickup takes place the week before Thanksgiving.</p>
+      <p class="text-gray-700">Check back here for updates or follow us on social media for announcements. Questions can be sent to <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a>.</p>
+      <div>
+        <a href="faq.html" class="text-green-700 underline">Turkey Giveaway FAQ</a>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 py-12 space-y-6">
+      <h2 class="text-2xl font-bold text-green-700">Impact &amp; Sponsors</h2>
+      <blockquote class="border-l-4 border-green-700 pl-4 italic text-gray-700">"Receiving a turkey meant we could celebrate together as a family." &mdash; Past recipient</blockquote>
+      <p class="text-gray-700">Last year more than 500 families received holiday meals thanks to our generous partners:</p>
+      <ul class="list-disc pl-5 text-gray-700">
+        <li>Community Food Bank</li>
+        <li>Niagara Grocery</li>
+        <li>Volunteers of Niagara</li>
+      </ul>
+      <p class="text-gray-700">We welcome new sponsors to help make 2025 our biggest year yet. Contact <a href="mailto:sponsor@bridgeniagara.org" class="text-green-700 underline">sponsor@bridgeniagara.org</a> to get involved.</p>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 pb-12">
+      <h2 class="text-2xl font-bold text-green-700 mb-4">Event Location</h2>
+      <div class="w-full h-64 sm:h-96">
+        <iframe src="https://maps.google.com/maps?q=1600%2011th%20St,%20Niagara%20Falls,%20NY%2014305&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </section>
   </main>
   <div id="footer"></div>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
-</body>
+  </body>
 </html>
