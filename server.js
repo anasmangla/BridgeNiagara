@@ -2,7 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { STRIPE_SECRET_KEY, SUCCESS_URL, CANCEL_URL } = process.env;
+
+if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
+  console.error(
+    'Missing required environment variables: STRIPE_SECRET_KEY, SUCCESS_URL, and CANCEL_URL must be defined.'
+  );
+  process.exit(1);
+}
+
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
 const rateLimit = require('express-rate-limit');
 const app = express();
@@ -56,8 +65,8 @@ app.post('/create-checkout-session', async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: process.env.SUCCESS_URL,
-      cancel_url: process.env.CANCEL_URL,
+      success_url: SUCCESS_URL,
+      cancel_url: CANCEL_URL,
       customer_email: email || undefined,
       metadata: {
         name: name || '',

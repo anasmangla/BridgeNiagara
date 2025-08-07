@@ -22,6 +22,7 @@ SERVER_URL=https://your-backend-domain
 PORT=4242
 ```
 
+- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` to be defined. The server will exit on startup if any are missing.
 - Never commit the `.env` file.
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
