@@ -27,15 +27,12 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const checkoutLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
+app.get('/config', (req, res) => {
+  res.json({ mapsApiKey: process.env.GOOGLE_MAPS_API_KEY || '' });
 });
 
-app.post('/create-checkout-session', checkoutLimiter, async (req, res) => {
+app.post('/create-checkout-session', async (req, res) => {
+
   try {
     const { amount, mode, name, email, phone } = req.body;
     const donationAmount = parseInt(amount, 10);
@@ -69,6 +66,15 @@ app.post('/create-checkout-session', checkoutLimiter, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.post('/submit-form', (req, res) => {
+  const { name, email, message, formType } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required.' });
+  }
+  console.log(`Form submission (${formType || 'general'}):`, { name, email, message });
+  res.json({ success: true });
 });
 
 const port = process.env.PORT || 4242;
