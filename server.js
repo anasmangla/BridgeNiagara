@@ -3,7 +3,12 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const fs = require('fs/promises');
-const { STRIPE_SECRET_KEY, SUCCESS_URL, CANCEL_URL } = process.env;
+const { STRIPE_SECRET_KEY, SUCCESS_URL, CANCEL_URL, ALLOWED_ORIGINS } = process.env;
+
+if (!ALLOWED_ORIGINS) {
+  console.error('Missing ALLOWED_ORIGINS environment variable.');
+  process.exit(1);
+}
 
 if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
   console.error(
@@ -21,7 +26,7 @@ const app = express();
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 app.use(limiter);
 
-const envAllowedOrigins = process.env.ALLOWED_ORIGINS;
+const envAllowedOrigins = ALLOWED_ORIGINS;
 // When ALLOWED_ORIGINS is not set, default to reflecting the request origin
 // so that same-origin requests are permitted without extra configuration.
 const allowedOrigins = envAllowedOrigins
