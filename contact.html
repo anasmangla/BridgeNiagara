@@ -20,9 +20,69 @@
     <h1 class="text-3xl font-bold text-green-700">Contact Us</h1>
     <p class="text-gray-700">Have questions or need assistance? Reach out and we'll be happy to help.</p>
     <p class="text-gray-700">Email: <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a></p>
+
+    <div class="h-64 w-full"><iframe id="map" class="w-full h-full border-0" loading="lazy" allowfullscreen></iframe></div>
+
+    <form id="contact-form" action="/submit-form" method="POST" class="space-y-4">
+      <div>
+        <label for="name" class="block font-medium">Full Name</label>
+        <input type="text" id="name" name="name" required class="w-full border px-4 py-2">
+      </div>
+      <div>
+        <label for="email" class="block font-medium">Email Address</label>
+        <input type="email" id="email" name="email" required class="w-full border px-4 py-2">
+      </div>
+      <div>
+        <label for="message" class="block font-medium">Message</label>
+        <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2"></textarea>
+      </div>
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Send</button>
+    </form>
+    <p id="contact-status" class="text-sm"></p>
   </main>
   <div id="footer"></div>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+  const contactForm = document.getElementById('contact-form');
+  const contactStatus = document.getElementById('contact-status');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    contactStatus.textContent = '';
+    const email = document.getElementById('email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      contactStatus.textContent = 'Please enter a valid email address.';
+      contactStatus.className = 'text-red-700 mt-2';
+      return;
+    }
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+    const data = Object.fromEntries(new FormData(contactForm).entries());
+    data.formType = 'contact';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (res.ok) {
+        contactStatus.textContent = result.message || 'Thank you for reaching out!';
+        contactStatus.className = 'text-green-700 mt-2';
+        contactForm.reset();
+      } else {
+        contactStatus.textContent = result.error || 'Submission failed. Please try again.';
+        contactStatus.className = 'text-red-700 mt-2';
+      }
+    } catch (err) {
+      contactStatus.textContent = 'An error occurred. Please try again.';
+      contactStatus.className = 'text-red-700 mt-2';
+    }
+  });
+  </script>
 </body>
 </html>
