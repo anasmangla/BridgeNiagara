@@ -14,7 +14,7 @@
   <meta name="twitter:description" content="Support Bridge Niagara Foundation's programs by making a secure one-time or monthly donation through our online form." />
   <meta name="twitter:image" content="https://bridgeniagara.org/images/bnf_logo.png" />
   <title>Donate - Bridge Niagara Foundation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="css/tailwind.css" rel="stylesheet">
   <link rel="stylesheet" href="css/custom.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
   <!-- Consistent Navigation Bar -->
   <div id="header"></div>
 
-  <main class="max-w-2xl mx-auto px-4 py-10">
+  <main class="max-w-5xl mx-auto px-4 py-10">
     <h1 class="text-3xl font-bold text-green-700 mb-6 text-center">Support Our Mission</h1>
 
     <form id="donation-form" class="space-y-6">
@@ -44,7 +44,7 @@
       <div>
         <label class="text-lg font-semibold">One-time or Monthly?</label>
         <div class="flex gap-4 mt-2">
-          <button type="button" class="donate-tab bg-green-700 text-white px-4 py-2 rounded" data-mode="payment">One-Time</button>
+          <button type="button" class="donate-tab bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded" data-mode="payment">One-Time</button>
           <button type="button" class="donate-tab bg-gray-200 text-gray-800 px-4 py-2 rounded" data-mode="subscription">Monthly</button>
         </div>
         <input type="hidden" name="mode" id="donation-mode" value="payment">
@@ -57,7 +57,7 @@
         <input type="tel" name="phone" placeholder="Phone Number" class="w-full border px-4 py-2 mt-2">
       </fieldset>
 
-      <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded shadow transition">Donate Now</button>
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded shadow transition">Donate Now</button>
     </form>
   </main>
 
