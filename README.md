@@ -12,7 +12,7 @@ npm install
 
 ## Environment Variables
 
-Sensitive credentials should be stored in a local `.env` file which is ignored by git. An example file is provided as `.env.example`.
+Sensitive credentials should be stored in a local `.env` file which is ignored by git. Start by copying `.env.example` to `.env` and customizing the values.
 
 ```
 STRIPE_SECRET_KEY=sk_test_yourkeyhere
@@ -34,13 +34,15 @@ If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests fr
 the page making the request. To restrict cross-origin requests, provide a comma-separated list of
 allowed origins or set `ALLOWED_ORIGINS=*` to permit any origin.
 
-## Running the Express server
+## Running Locally
 
-Start the development server:
+Ensure the `.env` file is in place, then start the server:
 
 ```
-npm start
+node server.js
 ```
+
+`npm start` is also available as a shortcut.
 
 ## Running Tests
 
@@ -50,7 +52,7 @@ Execute the test suite:
 npm test
 ```
 
-## Building CSS
+## Building Static Assets
 
 This site uses Tailwind CSS. Generate the stylesheet before deploying:
 
@@ -58,9 +60,19 @@ This site uses Tailwind CSS. Generate the stylesheet before deploying:
 npm run build:css
 ```
 
-## Deployment
+## Deploying to Hosting Platforms
 
-Run the Tailwind build command above before publishing the site to ensure `css/tailwind.css` is up to date.
+Before deploying, run `npm run build:css` so `css/tailwind.css` is current.
+
+- **Vercel** – Set the environment variables in the project settings and configure a build step of `npm run build:css`. Use `npm start` as the start command or create a Serverless Function.
+- **Netlify** – Add the same environment variables, run `npm run build:css` during build, and serve the `server.js` file via a Netlify Function or an external server.
+- **cPanel or traditional hosting** – Upload the repository, install dependencies on the server, set the environment variables through the hosting control panel, build the CSS, and run `node server.js` using a process manager like `pm2`.
+
+## Troubleshooting
+
+- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` are present in `.env`.
+- **CORS errors** – Ensure `ALLOWED_ORIGINS` matches the domains making requests.
+- **CSS not updating** – Run `npm run build:css` and confirm the output file exists at `css/tailwind.css`.
 
 ## Contributing
 
