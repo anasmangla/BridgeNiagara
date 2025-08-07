@@ -1,61 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Programs</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/css/custom.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          // Add any site-specific colors or settings here
+        }
+      },
+      plugins: [
+        function({ addComponents }) {
+          addComponents({
+            '.donate-btn': {
+              backgroundColor: '#dc2626',
+              color: '#fff',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '0.25rem',
+              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              width: '100%',
+              transition: 'background-color 0.2s ease',
+              '&:hover': { backgroundColor: '#b91c1c' },
+              '@screen sm': { width: 'auto' }
+            }
+          });
+        }
+      ]
+    }
+  </script>
 </head>
-<body class="bg-white text-gray-800">
-  <div id="header"></div>
-
-  <!-- Hero Slider -->
-  <section class="relative overflow-hidden" id="hero-slider">
-    <div class="relative h-64 md:h-96">
-      <div class="hero-slide absolute inset-0">
-        <img src="/images/BN1.jpg" alt="Community program 1" class="w-full h-full object-cover" />
-      </div>
-      <div class="hero-slide absolute inset-0 hidden">
-        <img src="/images/BN2.jpg" alt="Community program 2" class="w-full h-full object-cover" />
-      </div>
-      <div class="hero-slide absolute inset-0 hidden">
-        <img src="/images/BN3.jpg" alt="Community program 3" class="w-full h-full object-cover" />
-      </div>
-      <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-hero-prev>&larr;</button>
-      <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-hero-next>&rarr;</button>
-    </div>
-  </section>
-
-  <main class="max-w-5xl mx-auto px-4 py-12">
-    <!-- Program Grid -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
-        <h2 class="text-2xl font-semibold text-green-700">Turkey Giveaway</h2>
-        <p>Annual distribution supporting families before the holidays.</p>
-        <a href="/turkey-giveaway.html" class="text-green-700 underline">Learn more</a>
-      </article>
-
-      <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
-        <h2 class="text-2xl font-semibold text-green-700">Vendor Shows</h2>
-        <p>Seasonal events empowering local businesses.</p>
-      </article>
-
-      <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
-        <h2 class="text-2xl font-semibold text-green-700">Community Art Sessions</h2>
-        <p>Free creative workshops for families.</p>
-      </article>
-
-      <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
-        <h2 class="text-2xl font-semibold text-green-700">Area Cleanups</h2>
-        <p>Neighborhood service projects improving local parks.</p>
-      </article>
-    </section>
-  </main>
-
-  <div id="footer"></div>
-  <script src="/js/header.js"></script>
-  <script src="/js/footer.js"></script>
-  <script src="/js/programs.js"></script>
-</body>
-</html>
