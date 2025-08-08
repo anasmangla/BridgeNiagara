@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const slides = document.querySelectorAll('#program-slider .program-slide');
   const nextBtn = document.querySelector('[data-program-next]');
   const prevBtn = document.querySelector('[data-program-prev]');
+  const AUTO_INTERVAL_MS = 5000; // 5s autoplay interval per Nielsen Norman Group carousel study
   let index = 0;
   let interval;
 
@@ -17,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     interval = setInterval(() => {
       index = (index + 1) % slides.length;
       showSlide(index);
-    }, 5000);
+    }, AUTO_INTERVAL_MS);
   }
 
   function resetAutoPlay() {
