@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Volunteer - Bridge Niagara Foundation{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-12">
+  <h1 class="text-3xl font-bold text-green-700 mb-4">Volunteer with Us</h1>
+  <p class="text-gray-700 mb-4">Bridge Niagara Foundation relies on volunteers to power our Turkey Giveaway, Vendor Shows, Community Art Sessions, and neighborhood Cleanups. We welcome group and corporate teams who want to make a difference together.</p>
+  <p class="text-gray-700 mb-6">Complete the form below or reach us at <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a> or <a href="tel:7165143947" class="text-green-700 underline">(716) 514-3947</a>.</p>
+  <form id="volunteer-form" action="/submit-form" method="POST" class="space-y-4">
+    <div>
+      <label for="name" class="block font-medium">Full Name</label>
+      <input type="text" id="name" name="name" required class="w-full border px-4 py-2">
+    </div>
+    <div>
+      <label for="email" class="block font-medium">Email Address</label>
+      <input type="email" id="email" name="email" required class="w-full border px-4 py-2">
+    </div>
+    <div>
+      <label for="phone" class="block font-medium">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required class="w-full border px-4 py-2">
+    </div>
+    <div>
+      <label for="program" class="block font-medium">Preferred Program</label>
+      <select id="program" name="program" required class="w-full border px-4 py-2">
+        <option value="">Select a program</option>
+        <option>Turkey Giveaway</option>
+        <option>Vendor Shows</option>
+        <option>Community Art Sessions</option>
+        <option>Area Cleanups</option>
+        <option>Wherever needed</option>
+      </select>
+    </div>
+    <div>
+      <label for="availability" class="block font-medium">Availability</label>
+      <input type="text" id="availability" name="availability" required class="w-full border px-4 py-2" placeholder="e.g., Weekday evenings or weekends">
+    </div>
+    <div>
+      <label for="message" class="block font-medium">Additional Comments (optional)</label>
+      <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2" maxlength="500"></textarea>
+    </div>
+    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Submit</button>
+  </form>
+  <div id="volunteer-status" class="mt-4 hidden"></div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="js/config.js"></script>
+<script type="module" src="js/volunteer.js"></script>
+{% endblock %}
