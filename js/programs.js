@@ -1,11 +1,11 @@
-/* global Swiper */
-// Initialize Swiper slider for community programs
+// Initialize slider for community programs
 // Automatically discovers BN* images in the images/ directory and builds
 // the slider from them.
 window.addEventListener('DOMContentLoaded', async () => {
-  const sliderEl = document.getElementById('program-slider');
-  if (!sliderEl) return;
-  const wrapper = sliderEl.querySelector('.swiper-wrapper');
+  const slider = document.getElementById('program-slider');
+  if (!slider) return;
+  const track = slider.querySelector('[data-program-track]');
+  if (!track) return;
 
   // Preserve any original markup in case auto-discovery fails
   const originalHTML = track.innerHTML;
@@ -63,9 +63,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   } else {
     track.innerHTML = originalHTML;
   }
+
   const total = track.querySelectorAll('.program-slide').length;
-  const nextBtn = slider.querySelector('[data-program-next]');
-  const prevBtn = slider.querySelector('[data-program-prev]');
+  const nextBtn = slider.querySelector('.swiper-button-next');
+  const prevBtn = slider.querySelector('.swiper-button-prev');
   if (total === 0) return;
   let index = 0;
   let timer;
@@ -88,4 +89,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     goTo(index + 1);
     reset();
   });
+
+  prevBtn?.addEventListener('click', () => {
+    goTo(index - 1);
+    reset();
+  });
+
+  start();
 });
