@@ -63,6 +63,7 @@ The Stripe integration requires a running Node backend and a static host for the
   - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, `PORT`, and `STRIPE_WEBHOOK_SECRET` as environment variables.
    - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
 2. **Deploy the static site**
+
    - Ensure `js/config.js` is present and set `window.SERVER_URL` to the URL where the backend is deployed.
    - Upload the HTML and client-side JavaScript (including the updated `js/config.js`) to your static hosting provider.
 
