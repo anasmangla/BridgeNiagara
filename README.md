@@ -2,6 +2,15 @@
 
 This repository contains static site assets for Bridge Niagara.
 
+## Donation Workflow
+
+The donation page runs on a static front end but relies on a separate Node/Express backend
+(`server.js`) to create Stripe Checkout sessions and log donor data. The client loads
+`js/config.js`, which sets `window.SERVER_URL` to the deployed backend's base URL. GitHub
+Pages does not serve `.mjs` files with the correct MIME type, so all modules use the `.js`
+extension. When deploying, ensure `bridgeniagara.org` and `www.bridgeniagara.org` serve the
+same content or that one permanently redirects to the other.
+
 ## Installing Dependencies
 
 Install the required Node.js packages:
@@ -44,6 +53,19 @@ node server.js
 ```
 
 `npm start` is also available as a shortcut.
+
+### Testing Donations
+
+Serve the static files in a separate terminal:
+
+```
+npx serve .
+```
+
+Visit `http://localhost:3000/donate.html`, choose an amount, and donate using Stripe's
+test card `4242 4242 4242 4242` with any future expiration date and CVC. After the
+payment completes, you will be redirected to `success.html`, and the backend will append
+the transaction to `data/donations.json` once the webhook fires.
 
 ## Running Tests
 
