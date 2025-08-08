@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+{% endblock %}
+{% block title %}Programs - Bridge Niagara Foundation{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-12">
+  <section class="md:flex md:space-x-8 items-start">
+    <div class="relative overflow-hidden h-64 md:h-96 w-full md:w-1/2" id="program-slider">
+      <div class="flex w-full h-full transition-transform duration-500" data-program-track>
+        <div class="program-slide w-full flex-shrink-0">
+          <img src="images/BN1.jpg" alt="Community program 1" class="w-full h-full object-cover" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/BN2.jpg" alt="Community program 2" class="w-full h-full object-cover" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/BN3.jpg" alt="Community program 3" class="w-full h-full object-cover" />
+        </div>
+      </div>
+      <button class="swiper-button-prev absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-xl shadow-lg hover:bg-black/70 transition"></button>
+      <button class="swiper-button-next absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-xl shadow-lg hover:bg-black/70 transition"></button>
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="md:w-1/2 mt-8 md:mt-0 divide-y divide-gray-200">
+      <article class="py-6 first:pt-0 flex items-start gap-4">
+        <img src="images/BN1.jpg" alt="Bollywood Night" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Bollywood Night &amp; Farzana Legacy Scholarship</h2>
+          <p>150 attendees joined for prayers led by Anas Mangla and remarks from Nasreen Akhtar before a lively Bhangra Buffalo performance. Scholarships were awarded to Arooj Kynat and Saba Ali.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN2.jpg" alt="Farzana Legacy Scholarship" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Farzana Legacy Scholarship</h2>
+          <p>Honoring the life of Farzana Begum, this scholarship uplifts students devoted to community service. 2023 recipients were Aisha Makama, Sally Rick, and Sara Kim-Kubiak.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN3.jpg" alt="Vendor Shows" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Vendor Shows &amp; Business Meetups</h2>
+          <p>Free vendor fairs and networking meetups give entrepreneurs space to showcase products and build valuable partnerships across Niagara.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN4.jpg" alt="Community Clean-Ups" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Community Clean-Ups</h2>
+          <p>In partnership with Aero Transportation, volunteers tackle litter pick-up and planting projects to keep our neighborhoods vibrant and welcoming.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN5.jpg" alt="Youth Festivals" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Youth Festivals &amp; STEM Workshops</h2>
+          <p>Hands-on festivals spark curiosity with coding challenges and STEM activities that inspire future innovators.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN6.jpg" alt="Turkey Giveaway" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Turkey Giveaway</h2>
+          <p>Our annual <a href="turkey-giveaway.html" class="text-green-700 underline">Turkey Giveaway</a> shared 500 turkeys in 2024 with a goal of 1,000 birds for 2025.</p>
+        </div>
+      </article>
+
+      <article class="py-6 flex items-start gap-4">
+        <img src="images/BN7.jpg" alt="Community Art Sessions" class="w-16 h-16 rounded object-cover" />
+        <div>
+          <h2 class="text-xl font-semibold text-green-700">Community Art Sessions</h2>
+          <p>Open studio gatherings invite all ages to explore painting and crafts, building connections through creative expression.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="js/programs.js"></script>
+{% endblock %}
