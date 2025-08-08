@@ -1,122 +1,56 @@
-# BridgeNiagara
+# BridgeNiagara Deployment Guide
 
-This repository contains static site assets for Bridge Niagara.
+This guide covers deploying the application to a Python environment on Bluehost using cPanel.
 
-## Donation Workflow
+## 1. Install Python Dependencies
 
-The donation page runs on a static front end but relies on a separate Node/Express backend
-(`server.js`) to create Stripe Checkout sessions and log donor data. The client loads
-`js/config.js`, which sets `window.SERVER_URL` to the deployed backend's base URL. GitHub
-Pages does not serve `.mjs` files with the correct MIME type, so all modules use the `.js`
-extension. When deploying, ensure `bridgeniagara.org` and `www.bridgeniagara.org` serve the
-same content or that one permanently redirects to the other.
-
-## Installing Dependencies
-
-Install the required Node.js packages:
+Use the version of Python configured for your Bluehost application and install the required packages:
 
 ```
-npm install
+pip install -r requirements.txt
 ```
 
-## Environment Variables
+## 2. Run Migrations and Collect Static Files
 
-Sensitive credentials should be stored in a local `.env` file which is ignored by git. Start by copying `.env.example` to `.env` and customizing the values.
-
-```
-STRIPE_SECRET_KEY=sk_test_yourkeyhere
-STRIPE_WEBHOOK_SECRET=whsec_yourwebhooksecret
-SUCCESS_URL=https://your-domain.example/success.html
-CANCEL_URL=https://your-domain.example/cancel.html
-SERVER_URL=https://your-backend-domain
-PORT=4242
-ALLOWED_ORIGINS=https://your-frontend.example
-```
-
-- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` for webhook verification. The server will exit on startup if any are missing.
-- Never commit the `.env` file.
-- In production, configure these values through your hosting provider's environment settings.
-- Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
-- The donation page requires a backend URL defined in `js/config.js`. The repository includes a placeholder
-  `window.SERVER_URL` pointing to `https://api.example.com`; override this value to match your backend when deploying.
-
-If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
-the page making the request. To restrict cross-origin requests, provide a comma-separated list of
-allowed origins or set `ALLOWED_ORIGINS=*` to permit any origin.
-
-## Running Locally
-
-Ensure the `.env` file is in place, then start the server:
+Apply database migrations and gather static assets before deployment:
 
 ```
-node server.js
+python manage.py migrate
+python manage.py collectstatic --noinput
 ```
 
-`npm start` is also available as a shortcut.
+## 3. Configure Environment Variables on Bluehost
 
-### Testing Donations
+1. Log in to Bluehost and open **Advanced → Terminal** or connect via SSH.
+2. Edit `~/.bash_profile` (or the virtual environment's `activate` script) to export required variables, e.g.:
+   ```bash
+   export DJANGO_SETTINGS_MODULE=project.settings
+   export SECRET_KEY=your-secret-key
+   export DATABASE_URL=mysql://user:password@host/dbname
+   ```
+3. Reload the profile (`source ~/.bash_profile`) or restart the app so the variables take effect.
 
-Serve the static files in a separate terminal:
+## 4. Use `passenger_wsgi.py` as the Entry Point
 
+Create a `passenger_wsgi.py` file at the project root to point Passenger to the Django WSGI application:
+
+```python
+import os
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(BASE_DIR))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 ```
-npx serve .
-```
 
-Visit `http://localhost:3000/donate.html`, choose an amount, and donate using Stripe's
-test card `4242 4242 4242 4242` with any future expiration date and CVC. After the
-payment completes, you will be redirected to `success.html`, and the backend will append
-the transaction to `data/donations.json` once the webhook fires.
+## 5. Deploy via cPanel Git Version Control and Restart the Python App
 
-## Running Tests
+1. In cPanel, open **Files → Git Version Control** and create or configure a repository pointing to this project.
+2. After pushing changes, deploy the latest commit from cPanel or by running `git pull` in the app directory.
+3. Go to **Advanced → Python Apps** (or **Setup Python App**) and click **Restart** to reload the application with the new code.
 
-Execute the test suite:
-
-```
-npm test
-```
-
-
-## Deploying to Hosting Platforms
-
-The Stripe integration requires a running Node backend and a static host for the HTML/JS files.
-
-1. **Deploy the backend**
-   - Upload `server.js` (and `package.json`) to your host and run `npm install`.
-  - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, `PORT`, and `STRIPE_WEBHOOK_SECRET` as environment variables.
-   - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
-2. **Deploy the static site**
-
-   - Ensure `js/config.js` is present and set `window.SERVER_URL` to the URL where the backend is deployed.
-   - Upload the HTML and client-side JavaScript (including the updated `js/config.js`) to your static hosting provider.
-
-Platform notes:
-
-- **Vercel** – Set environment variables in the project settings. Deploy `server.js` as a Serverless Function or run `npm start`. Ensure the static site includes a customized `js/config.js` pointing to the Vercel backend.
-- **Netlify** – Add the same environment variables in Site settings. Serve the backend via a Netlify Function or external Node server, and deploy the static files with a `js/config.js` referencing it.
-- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Ensure `js/config.js` on the static portion of the site points to that server.
-
-### Verifying the Stripe Endpoint
-
-- [ ] `js/config.js` exists and `window.SERVER_URL` matches the deployed backend.
-- [ ] From `donate.html`, a network request to `${window.SERVER_URL}/create-checkout-session` returns a `200` response.
-- [ ] Clicking the donate button redirects to Stripe Checkout without CORS errors.
-
-## Static Hosting Notes
-
-- GitHub Pages and some static hosts do not serve `.mjs` files with a JavaScript MIME type. Modules should use the `.js` extension (e.g. `donationHelpers.js`), and HTML pages must import them with `.js`.
-- If the site is only deployed to `www.bridgeniagara.org`, configure a permanent redirect from `bridgeniagara.org` at the DNS or hosting level so both domains deliver the same assets.
-- Avoid meta-refresh or other client-side redirect loops; server-side redirects are preferred.
-
-## Troubleshooting
-
-- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` are present in `.env`.
-- **CORS errors** – Ensure `ALLOWED_ORIGINS` matches the domains making requests.
-
-## Contributing
-
-Pull requests are welcome. Please run `npm test` before submitting.
-
-## CI / Deployment
-
-In continuous integration or deployment pipelines, run the tests before releasing changes.
-
+Your application should now be running with the latest code, migrations, and static assets.
