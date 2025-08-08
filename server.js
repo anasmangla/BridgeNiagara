@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const fs = require('fs/promises');
+const path = require('path');
 const {
   STRIPE_SECRET_KEY,
   SUCCESS_URL,
@@ -80,8 +81,8 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     const { metadata, amount_total, id } = session;
     const donation = { metadata, amount_total, id };
     try {
-      await fs.mkdir('data', { recursive: true });
-      const filePath = 'data/donations.json';
+      await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+      const filePath = path.join(__dirname, 'data', 'donations.json');
       let donations = [];
       try {
         const existing = await fs.readFile(filePath, 'utf8');
@@ -137,8 +138,8 @@ app.post('/create-checkout-session', async (req, res) => {
       }
     });
     try {
-      await fs.mkdir('data', { recursive: true });
-      const donationsPath = 'data/donations.json';
+      await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+      const donationsPath = path.join(__dirname, 'data', 'donations.json');
       let donations = [];
       try {
         const existing = await fs.readFile(donationsPath, 'utf8');
@@ -182,8 +183,8 @@ app.post('/submit-form', async (req, res) => {
       date: new Date().toISOString(),
     };
 
-    await fs.mkdir('data', { recursive: true });
-    const filePath = 'data/submissions.json';
+    await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+    const filePath = path.join(__dirname, 'data', 'submissions.json');
     let submissions = [];
     try {
       const existing = await fs.readFile(filePath, 'utf8');
