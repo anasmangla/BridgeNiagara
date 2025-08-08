@@ -1,8 +1,8 @@
 // Inject shared footer on pages
 window.addEventListener('DOMContentLoaded', () => {
-  const footerUrl = window.location.hostname.startsWith('www.')
-    ? '/footer.html'
-    : 'https://www.bridgeniagara.org/footer.html';
+  const footerUrl = window.location.hostname === 'bridgeniagara.org'
+    ? 'https://www.bridgeniagara.org/footer.html'
+    : '/footer.html';
 
   fetch(footerUrl)
     .then((response) => response.text())

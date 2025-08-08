@@ -1,8 +1,8 @@
-// Hero slider next/prev logic
+// Program slider next/prev logic
 window.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.hero-slide');
-  const nextBtn = document.querySelector('[data-hero-next]');
-  const prevBtn = document.querySelector('[data-hero-prev]');
+  const slides = document.querySelectorAll('#program-slider .program-slide');
+  const nextBtn = document.querySelector('[data-program-next]');
+  const prevBtn = document.querySelector('[data-program-prev]');
   let index = 0;
   let interval;
 
