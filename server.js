@@ -3,7 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const fs = require('fs/promises');
-const { STRIPE_SECRET_KEY, SUCCESS_URL, CANCEL_URL, ALLOWED_ORIGINS } = process.env;
+const {
+  STRIPE_SECRET_KEY,
+  SUCCESS_URL,
+  CANCEL_URL,
+  ALLOWED_ORIGINS,
+  STRIPE_WEBHOOK_SECRET,
+} = process.env;
 
 if (!ALLOWED_ORIGINS) {
   console.error('Missing ALLOWED_ORIGINS environment variable.');
@@ -58,6 +64,42 @@ const corsOptions = !allowedOrigins || allowedOrigins.includes('*')
 
 app.use(cors(corsOptions));
 app.use(helmet());
+
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    const { metadata, amount_total, id } = session;
+    const donation = { metadata, amount_total, id };
+    try {
+      await fs.mkdir('data', { recursive: true });
+      const filePath = 'data/donations.json';
+      let donations = [];
+      try {
+        const existing = await fs.readFile(filePath, 'utf8');
+        donations = JSON.parse(existing);
+      } catch (err) {
+        if (err.code !== 'ENOENT') throw err;
+      }
+      donations.push(donation);
+      await fs.writeFile(filePath, JSON.stringify(donations, null, 2));
+    } catch (err) {
+      console.error('Failed to store donation:', err);
+      return res.status(500).send('Failed to process donation.');
+    }
+  }
+
+  res.status(200).send();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get('/config', (req, res) => {
