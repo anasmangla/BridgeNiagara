@@ -1,44 +1,53 @@
-// Program slider next/prev logic
+// Program slider using translateX
 window.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('#program-slider .program-slide');
-  const nextBtn = document.querySelector('[data-program-next]');
-  const prevBtn = document.querySelector('[data-program-prev]');
+  const slider = document.getElementById('program-slider');
+  if (!slider) return;
+  const track = slider.querySelector('[data-program-track]');
+  const slides = slider.querySelectorAll('.program-slide');
+  const nextBtn = slider.querySelector('[data-program-next]');
+  const prevBtn = slider.querySelector('[data-program-prev]');
+  const total = slides.length;
   let index = 0;
-  let interval;
+  let timer;
 
-  function showSlide(i) {
-    slides.forEach((slide, idx) => {
-      slide.classList.toggle('opacity-100', idx === i);
-      slide.classList.toggle('opacity-0', idx !== i);
-    });
+  function goTo(i) {
+    index = (i + total) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+  function start() {
+    timer = setInterval(() => goTo(index + 1), 3000);
   }
 
-  function startAutoPlay() {
-    interval = setInterval(() => {
-      index = (index + 1) % slides.length;
-      showSlide(index);
-    }, 5000);
+  function reset() {
+    clearInterval(timer);
+    start();
   }
 
-  function resetAutoPlay() {
-    clearInterval(interval);
-    startAutoPlay();
-  }
+  nextBtn?.addEventListener('click', () => {
+    goTo(index + 1);
+    reset();
+  });
 
-  if (slides.length) {
-    showSlide(index);
-    startAutoPlay();
+  prevBtn?.addEventListener('click', () => {
+    goTo(index - 1);
+    reset();
+  });
 
-    nextBtn?.addEventListener('click', () => {
-      index = (index + 1) % slides.length;
-      showSlide(index);
-      resetAutoPlay();
-    });
+  // touch handlers for swipe
+  let startX = 0;
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    clearInterval(timer);
+  });
 
-    prevBtn?.addEventListener('click', () => {
-      index = (index - 1 + slides.length) % slides.length;
-      showSlide(index);
-      resetAutoPlay();
-    });
-  }
+  slider.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? goTo(index - 1) : goTo(index + 1);
+    }
+    reset();
+  });
+
+  goTo(0);
+  start();
 });
