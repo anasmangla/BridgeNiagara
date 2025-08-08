@@ -3,7 +3,22 @@ window.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('program-slider');
   if (!slider) return;
   const track = slider.querySelector('[data-program-track]');
-  const slides = slider.querySelectorAll('.program-slide');
+
+  // Dynamically generate slides for all BN images
+  track.innerHTML = '';
+  const imageCount = 29;
+  for (let i = 1; i <= imageCount; i++) {
+    const slide = document.createElement('div');
+    slide.className = 'program-slide w-full flex-shrink-0';
+    const img = document.createElement('img');
+    img.src = `images/BN${i}.jpg`;
+    img.alt = `Community program ${i}`;
+    img.className = 'w-full h-full object-cover';
+    slide.appendChild(img);
+    track.appendChild(slide);
+  }
+
+  const slides = track.querySelectorAll('.program-slide');
   const nextBtn = slider.querySelector('[data-program-next]');
   const prevBtn = slider.querySelector('[data-program-prev]');
   const total = slides.length;
