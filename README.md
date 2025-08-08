@@ -59,6 +59,12 @@ npm test
 - **Netlify** – Add the same environment variables and serve the `server.js` file via a Netlify Function or an external server.
 - **cPanel or traditional hosting** – Upload the repository, install dependencies on the server, set the environment variables through the hosting control panel, and run `node server.js` using a process manager like `pm2`.
 
+## Static Hosting Notes
+
+- GitHub Pages and some static hosts do not serve `.mjs` files with a JavaScript MIME type. Modules should use the `.js` extension (e.g. `donationHelpers.js`), and HTML pages must import them with `.js`.
+- If the site is only deployed to `www.bridgeniagara.org`, configure a permanent redirect from `bridgeniagara.org` at the DNS or hosting level so both domains deliver the same assets.
+- Avoid meta-refresh or other client-side redirect loops; server-side redirects are preferred.
+
 ## Troubleshooting
 
 - **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` are present in `.env`.
