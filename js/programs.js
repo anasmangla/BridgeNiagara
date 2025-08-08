@@ -1,69 +1,52 @@
-// Program slider next/prev logic
+// Program slider using translateX
 window.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('program-slider');
-  const slides = document.querySelectorAll('#program-slider .program-slide');
-  const nextBtn = document.querySelector('[data-program-next]');
-  const prevBtn = document.querySelector('[data-program-prev]');
+  if (!slider) return;
+  const track = slider.querySelector('[data-program-track]');
+  const slides = slider.querySelectorAll('.program-slide');
+  const nextBtn = slider.querySelector('[data-program-next]');
+  const prevBtn = slider.querySelector('[data-program-prev]');
   let index = 0;
-  let interval;
+  let timer;
 
-  function showSlide(i) {
-    slides.forEach((slide, idx) => {
-      slide.classList.toggle('opacity-100', idx === i);
-      slide.classList.toggle('opacity-0', idx !== i);
-    });
+  function goTo(i) {
+    index = (i + total) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+  function start() {
+    timer = setInterval(() => goTo(index + 1), 3000);
   }
 
-  function startAutoPlay() {
-    interval = setInterval(() => {
-      nextSlide();
-    }, 5000);
+  function reset() {
+    clearInterval(timer);
+    start();
   }
 
-  function stopAutoPlay() {
-    clearInterval(interval);
-  }
+  nextBtn?.addEventListener('click', () => {
+    goTo(index + 1);
+    reset();
+  });
 
-  function resetAutoPlay() {
-    stopAutoPlay();
-    startAutoPlay();
-  }
+  prevBtn?.addEventListener('click', () => {
+    goTo(index - 1);
+    reset();
+  });
 
-  function nextSlide() {
-    index = (index + 1) % slides.length;
-    showSlide(index);
-  }
+  // touch handlers for swipe
+  let startX = 0;
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    clearInterval(timer);
+  });
 
-  function prevSlide() {
-    index = (index - 1 + slides.length) % slides.length;
-    showSlide(index);
-  }
+  slider.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? goTo(index - 1) : goTo(index + 1);
+    }
+    reset();
+  });
 
-  if (slides.length) {
-    showSlide(index);
-    startAutoPlay();
-
-    nextBtn?.addEventListener('click', () => {
-      nextSlide();
-      resetAutoPlay();
-    });
-
-    prevBtn?.addEventListener('click', () => {
-      prevSlide();
-      resetAutoPlay();
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') {
-        nextSlide();
-        resetAutoPlay();
-      } else if (e.key === 'ArrowLeft') {
-        prevSlide();
-        resetAutoPlay();
-      }
-    });
-
-    slider?.addEventListener('mouseenter', stopAutoPlay);
-    slider?.addEventListener('mouseleave', startAutoPlay);
-  }
+  goTo(0);
+  start();
 });
