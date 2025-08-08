@@ -116,6 +116,18 @@ app.get('/config', (req, res) => {
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const { amount, mode, name, email, phone } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required.' });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email address.' });
+    }
+
+    const sanitizedPhone = phone ? phone.replace(/\D/g, '') : '';
+
     const donationAmount = parseInt(amount, 10);
     if (!Number.isInteger(donationAmount) || donationAmount <= 0) {
       return res.status(400).json({ error: 'Invalid donation amount' });
@@ -135,11 +147,11 @@ app.post('/create-checkout-session', async (req, res) => {
       ],
       success_url: SUCCESS_URL,
       cancel_url: CANCEL_URL,
-      customer_email: email || undefined,
+      customer_email: email,
       metadata: {
-        name: name || '',
-        email: email || '',
-        phone: phone || ''
+        name,
+        email,
+        phone: sanitizedPhone
       }
     });
 
