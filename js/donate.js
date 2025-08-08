@@ -1,4 +1,4 @@
-import { getDonationAmount, isValidAmount } from './donationHelpers.mjs';
+import { getDonationAmount, isValidAmount } from './donationHelpers.js';
 
 // Donation page interactions (modified)
 window.addEventListener('DOMContentLoaded', () => {

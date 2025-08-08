@@ -5,7 +5,7 @@ function assert(condition, message) {
 }
 
 (async () => {
-  const { getDonationAmount, isValidAmount } = await import('../js/donationHelpers.mjs');
+  const { getDonationAmount, isValidAmount } = await import('../js/donationHelpers.js');
   try {
     let amount = getDonationAmount({ amount: '1000', custom_amount: '' });
     assert(amount === 1000, 'Preset amount parsed incorrectly');
