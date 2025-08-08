@@ -62,9 +62,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   } else {
     track.innerHTML = originalHTML;
   }
-
-  const slides = track.querySelectorAll('.program-slide');
-  const total = slides.length;
+  const total = track.querySelectorAll('.program-slide').length;
   const nextBtn = slider.querySelector('[data-program-next]');
   const prevBtn = slider.querySelector('[data-program-prev]');
   let index = 0;
