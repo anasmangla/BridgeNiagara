@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     track.appendChild(slide);
   });
 
-  const slides = track.querySelectorAll('.program-slide');
+  const total = track.querySelectorAll('.program-slide').length;
   const nextBtn = slider.querySelector('[data-program-next]');
   const prevBtn = slider.querySelector('[data-program-prev]');
   let index = 0;
