@@ -15,6 +15,10 @@ Module._load = function(request, parent, isMain) {
               return { url: 'https://example.com/session/mock' };
             }
           }
+        },
+        webhooks: {
+          constructEvent: (body) =>
+            JSON.parse(Buffer.isBuffer(body) ? body.toString() : body)
         }
       };
     };
