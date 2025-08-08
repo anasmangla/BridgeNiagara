@@ -50,7 +50,7 @@
       </div>
       <div>
         <label for="message" class="block font-medium">Additional Comments (optional)</label>
-        <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2"></textarea>
+        <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2" maxlength="500"></textarea>
       </div>
       <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Submit</button>
     </form>
@@ -60,14 +60,21 @@
   <script>
   const volunteerForm = document.getElementById('volunteer-form');
   const volunteerStatus = document.getElementById('volunteer-status');
+  const MAX_MESSAGE_LENGTH = 500;
   volunteerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     volunteerStatus.textContent = '';
     volunteerStatus.className = 'mt-4 hidden';
     const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       volunteerStatus.textContent = 'Please enter a valid email address.';
+      volunteerStatus.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
+      return;
+    }
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      volunteerStatus.textContent = `Message must be ${MAX_MESSAGE_LENGTH} characters or fewer.`;
       volunteerStatus.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
       return;
     }

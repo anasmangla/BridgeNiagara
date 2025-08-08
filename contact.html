@@ -36,7 +36,7 @@
       </div>
       <div>
         <label for="message" class="block font-medium">Message</label>
-        <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2"></textarea>
+        <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2" maxlength="500"></textarea>
       </div>
       <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Send</button>
     </form>
@@ -55,13 +55,20 @@
   <script>
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');
+  const MAX_MESSAGE_LENGTH = 500;
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     contactStatus.textContent = '';
     const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       contactStatus.textContent = 'Please enter a valid email address.';
+      contactStatus.className = 'text-red-700 mt-2';
+      return;
+    }
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      contactStatus.textContent = `Message must be ${MAX_MESSAGE_LENGTH} characters or fewer.`;
       contactStatus.className = 'text-red-700 mt-2';
       return;
     }

@@ -163,6 +163,16 @@ app.post('/submit-form', async (req, res) => {
     return res.status(400).json({ error: 'Name and email are required.' });
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email address.' });
+  }
+
+  const MAX_MESSAGE_LENGTH = 500;
+  if (message && message.length > MAX_MESSAGE_LENGTH) {
+    return res.status(400).json({ error: `Message must be ${MAX_MESSAGE_LENGTH} characters or fewer.` });
+  }
+
   try {
     const submission = {
       name,
