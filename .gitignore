@@ -1,9 +1,20 @@
-# Ignore environment files
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Database
+db.sqlite3
+
+# Environment
 .env
+
+# Static and media
+staticfiles/
+media/
 
 # Node dependencies
 node_modules/
 
-# Other
+# macOS
 .DS_Store
-
