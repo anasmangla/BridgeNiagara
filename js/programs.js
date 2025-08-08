@@ -7,6 +7,29 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (!sliderEl) return;
   const wrapper = sliderEl.querySelector('.swiper-wrapper');
 
+  // Preserve any original markup in case auto-discovery fails
+  const originalHTML = track.innerHTML;
+
+  // Fallback list if dynamic discovery finds nothing
+  const fallbackImages = [
+    'images/BN1.jpg',
+    'images/BN2.jpg',
+    'images/BN3.jpg',
+    'images/BN4.jpg',
+    'images/BN5.jpg',
+    'images/BN6.jpg',
+    'images/BN7.jpg'
+  ];
+
+  // Helper to check if an image exists using a lightweight Image object
+  const imageExists = (path) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = path;
+    });
+
   // Auto-discover sequential BN images (BN1.jpg, BN2.jpeg, BN3.JPG, ...)
   const slideImages = [];
   const exts = ['.jpg', '.jpeg', '.JPG'];
@@ -14,50 +37,55 @@ window.addEventListener('DOMContentLoaded', async () => {
     let found = false;
     for (const ext of exts) {
       const path = `images/BN${i}${ext}`;
-      try {
-        const res = await fetch(path, { method: 'HEAD' });
-        if (res.ok) {
-          slideImages.push(path);
-          found = true;
-          break;
-        }
-      } catch {
-        // ignore network errors and continue
+      if (await imageExists(path)) {
+        slideImages.push(path);
+        found = true;
+        break;
       }
     }
     if (!found) break;
   }
 
-  // Inject discovered slides into the wrapper
-  wrapper.innerHTML = '';
-  slideImages.forEach((src, idx) => {
-    const slide = document.createElement('div');
-    slide.className = 'swiper-slide';
-    slide.innerHTML = `<img src="${src}" alt="Community program ${idx + 1}" class="w-full h-full object-cover" />`;
-    wrapper.appendChild(slide);
-  });
+  // If discovery failed, attempt to use the fallback list
+  if (slideImages.length === 0 && fallbackImages.length) {
+    slideImages.push(...fallbackImages);
+  }
 
-  // Initialize Swiper with autoplay, navigation, keyboard control and pagination
-  new Swiper('#program-slider', {
-    loop: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true,
-    },
-    effect: 'fade',
-    fadeEffect: { crossFade: true },
-    speed: 600,
+  // Inject slides if we have any; otherwise keep original HTML
+  if (slideImages.length) {
+    track.innerHTML = '';
+    slideImages.forEach((src, idx) => {
+      const slide = document.createElement('div');
+      slide.className = 'program-slide w-full flex-shrink-0';
+      slide.innerHTML = `<img src="${src}" alt="Community program ${idx + 1}" class="w-full h-full object-cover" />`;
+      track.appendChild(slide);
+    });
+  } else {
+    track.innerHTML = originalHTML;
+  }
+  const total = track.querySelectorAll('.program-slide').length;
+  const nextBtn = slider.querySelector('[data-program-next]');
+  const prevBtn = slider.querySelector('[data-program-prev]');
+  if (total === 0) return;
+  let index = 0;
+  let timer;
+
+  function goTo(i) {
+    index = (i + total) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function start() {
+    timer = setInterval(() => goTo(index + 1), 3000);
+  }
+
+  function reset() {
+    clearInterval(timer);
+    start();
+  }
+
+  nextBtn?.addEventListener('click', () => {
+    goTo(index + 1);
+    reset();
   });
 });
