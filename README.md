@@ -28,7 +28,8 @@ ALLOWED_ORIGINS=https://your-frontend.example
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
 - The donation page requires a valid backend URL. Copy `js/config.example.js` to `js/config.js` and
-  set `window.SERVER_URL` to match `SERVER_URL` above or define `SERVER_URL` via your build system.
+  set `window.SERVER_URL` to your backend endpoint (matching `SERVER_URL` above). The `config.js`
+  file is ignored by git and must be created per deployment.
 
 If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
 the page making the request. To restrict cross-origin requests, provide a comma-separated list of
