@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Browse artwork from Bridge Niagara's Community Art Sessions." />
+  <script src="js/redirect.js"></script>
+  <title>Community Art Gallery - Bridge Niagara Foundation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    body{font-family:'Inter',sans-serif;}
+    .donate-btn{background-color:#dc2626;color:#fff;padding:0.75rem 1.5rem;border-radius:0.25rem;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;transition:background-color .2s ease;}
+    .donate-btn:hover{background-color:#b91c1c;}
+    @media(min-width:640px){.donate-btn{width:auto;}}
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+  <div id="header"></div>
+  <main class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-green-700 mb-6">Community Art Gallery</h1>
+    <p class="text-gray-700 mb-8">Explore creations from our free art workshops and exhibitions. More galleries will be added as sessions continue.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <img src="images/BN12.jpg" alt="Community artwork 1" class="rounded-lg shadow" />
+      <img src="images/BN16.jpg" alt="Community artwork 2" class="rounded-lg shadow" />
+      <img src="images/BN18.jpg" alt="Community artwork 3" class="rounded-lg shadow" />
+    </div>
+    <p class="mt-8">
+      <a href="programs.html" class="text-green-700 underline">Learn more about Community Art Sessions</a>
+    </p>
+  </main>
+  <div id="footer"></div>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+</body>
+</html>
+
