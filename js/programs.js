@@ -65,6 +65,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const total = track.querySelectorAll('.program-slide').length;
   const nextBtn = slider.querySelector('[data-program-next]');
   const prevBtn = slider.querySelector('[data-program-prev]');
+  if (total === 0) return;
   let index = 0;
   let timer;
 
