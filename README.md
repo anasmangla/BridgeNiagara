@@ -30,9 +30,10 @@ ALLOWED_ORIGINS=https://your-frontend.example
 - The donation page requires a valid backend URL. Copy `js/config.example.js` to `js/config.js` and
   set `window.SERVER_URL` to match `SERVER_URL` above or define `SERVER_URL` via your build system.
 
-If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
-the page making the request. To restrict cross-origin requests, provide a comma-separated list of
-allowed origins or set `ALLOWED_ORIGINS=*` to permit any origin.
+If `ALLOWED_ORIGINS` is omitted or empty, the server allows requests from
+`https://bridgeniagara.org` and `https://www.bridgeniagara.org` by default. To
+allow additional origins, provide a comma-separated list or set
+`ALLOWED_ORIGINS=*` to permit any origin.
 
 ## Running Locally
 
