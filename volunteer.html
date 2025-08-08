@@ -22,7 +22,8 @@
   <div id="header"></div>
   <main class="max-w-5xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-green-700 mb-4">Volunteer with Us</h1>
-    <p class="text-gray-700 mb-6">We welcome individuals of all ages and backgrounds to help out with our programs, events, and outreach efforts. Fill out the form below and we’ll reach out with upcoming opportunities.</p>
+    <p class="text-gray-700 mb-4">Bridge Niagara Foundation relies on volunteers to power our Turkey Giveaway, Vendor Shows, Community Art Sessions, and neighborhood Cleanups. We welcome group and corporate teams who want to make a difference together.</p>
+    <p class="text-gray-700 mb-6">Complete the form below or reach us at <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a> or <a href="tel:7165551234" class="text-green-700 underline">716-555-1234</a>.</p>
     <form id="volunteer-form" action="/submit-form" method="POST" class="space-y-4">
       <div>
         <label for="name" class="block font-medium">Full Name</label>
@@ -33,12 +34,31 @@
         <input type="email" id="email" name="email" required class="w-full border px-4 py-2">
       </div>
       <div>
-        <label for="message" class="block font-medium">Tell us how you’d like to help</label>
+        <label for="phone" class="block font-medium">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required class="w-full border px-4 py-2">
+      </div>
+      <div>
+        <label for="program" class="block font-medium">Preferred Program</label>
+        <select id="program" name="program" required class="w-full border px-4 py-2">
+          <option value="">Select a program</option>
+          <option>Turkey Giveaway</option>
+          <option>Vendor Shows</option>
+          <option>Community Art Sessions</option>
+          <option>Area Cleanups</option>
+          <option>Wherever needed</option>
+        </select>
+      </div>
+      <div>
+        <label for="availability" class="block font-medium">Availability</label>
+        <input type="text" id="availability" name="availability" required class="w-full border px-4 py-2" placeholder="e.g., Weekday evenings or weekends">
+      </div>
+      <div>
+        <label for="message" class="block font-medium">Additional Comments (optional)</label>
         <textarea id="message" name="message" rows="4" class="w-full border px-4 py-2"></textarea>
       </div>
       <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Submit</button>
     </form>
-    <p id="volunteer-status" class="text-sm mt-2"></p>
+    <div id="volunteer-status" class="mt-4 hidden"></div>
   </main>
   <div id="footer"></div>
   <script>
@@ -47,11 +67,12 @@
   volunteerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     volunteerStatus.textContent = '';
+    volunteerStatus.className = 'mt-4 hidden';
     const email = document.getElementById('email').value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       volunteerStatus.textContent = 'Please enter a valid email address.';
-      volunteerStatus.className = 'text-red-700 mt-2';
+      volunteerStatus.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
       return;
     }
     if (!volunteerForm.checkValidity()) {
@@ -69,15 +90,15 @@
       const result = await res.json();
       if (res.ok) {
         volunteerStatus.textContent = result.message || 'Thank you for volunteering! We will contact you soon.';
-        volunteerStatus.className = 'text-green-700 mt-2';
+        volunteerStatus.className = 'mt-4 p-4 bg-green-100 text-green-700 rounded';
         volunteerForm.reset();
       } else {
         volunteerStatus.textContent = result.error || 'Submission failed. Please try again.';
-        volunteerStatus.className = 'text-red-700 mt-2';
+        volunteerStatus.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
       }
     } catch (err) {
       volunteerStatus.textContent = 'An error occurred. Please try again.';
-      volunteerStatus.className = 'text-red-700 mt-2';
+      volunteerStatus.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
     }
   });
   </script>
