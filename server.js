@@ -80,27 +80,50 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const { metadata, amount_total, id } = session;
-    const donation = { metadata, amount_total, id };
-    // Persist the donation only after Stripe confirms payment success
-    try {
-      await fs.mkdir('data', { recursive: true });
-      const filePath = 'data/donations.json';
-      let donations = [];
+    if (session.payment_status === 'paid') {
+      const { metadata, amount_total, id, created } = session;
+      const donation = {
+        metadata,
+        amount_total,
+        id,
+        created: created
+          ? new Date(created * 1000).toISOString()
+          : new Date().toISOString(),
+      };
       try {
-        const existing = await fs.readFile(filePath, 'utf8');
-        donations = JSON.parse(existing);
-      } catch (err) {
-        if (err.code !== 'ENOENT') {
-          console.error('Failed to read existing donations:', err);
-          return res.status(500).send('Failed to process donation.');
+        await fs.mkdir('data', { recursive: true });
+        const filePath = 'data/donations.json';
+        const tempPath = `${filePath}.tmp`;
+        const lockPath = `${filePath}.lock`;
+        const lock = await fs
+          .open(lockPath, 'wx')
+          .catch((err) => {
+            if (err.code === 'EEXIST') {
+              throw new Error('Unable to acquire lock for donations file');
+            }
+            throw err;
+          });
+        try {
+          let donations = [];
+          try {
+            const existing = await fs.readFile(filePath, 'utf8');
+            donations = JSON.parse(existing);
+          } catch (err) {
+            if (err.code !== 'ENOENT') {
+              throw err;
+            }
+          }
+          donations.push(donation);
+          await fs.writeFile(tempPath, JSON.stringify(donations, null, 2));
+          await fs.rename(tempPath, filePath);
+        } finally {
+          await lock.close();
+          await fs.unlink(lockPath).catch(() => {});
         }
+      } catch (err) {
+        console.error('Failed to store donation:', err);
+        return res.status(500).send('Failed to process donation.');
       }
-      donations.push(donation);
-      await fs.writeFile(filePath, JSON.stringify(donations, null, 2));
-    } catch (err) {
-      console.error('Failed to store donation:', err);
-      return res.status(500).send('Failed to process donation.');
     }
   }
 
