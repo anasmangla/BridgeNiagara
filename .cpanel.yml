@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/3cserve/public_html/bridgeniagara
-    - /usr/bin/rsync -a --exclude '.git*' $PWD/ $DEPLOYPATH
+    - export DEPLOY_PATH=/home/3cserve/public_html/bridgeniagara
+    - /usr/bin/rsync -a --exclude '.git*' $PWD/ $DEPLOY_PATH
