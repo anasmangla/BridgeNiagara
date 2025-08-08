@@ -39,12 +39,25 @@
         <label class="block mb-1" for="custom_amount">Custom amount</label>
         <input type="number" name="custom_amount" class="w-full border p-2 rounded" min="1" step="0.01" placeholder="USD">
       </div>
+      <div>
+        <label class="block mb-1" for="name">Name</label>
+        <input type="text" name="name" class="w-full border p-2 rounded" required>
+      </div>
+      <div>
+        <label class="block mb-1" for="email">Email</label>
+        <input type="email" name="email" class="w-full border p-2 rounded" required>
+      </div>
+      <div>
+        <label class="block mb-1" for="phone">Phone</label>
+        <input type="tel" name="phone" class="w-full border p-2 rounded">
+      </div>
       <button type="submit" class="donate-btn w-full">Donate with Stripe</button>
     </form>
     <p class="text-sm text-gray-600 mt-4 text-center">Donations are tax-deductible and receipts will be emailed.</p>
   </main>
   <div id="footer"></div>
   <script src="js/config.js"></script>
+  <script type="module" src="js/donationHelpers.js"></script>
   <script type="module" src="js/donate.js"></script>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
