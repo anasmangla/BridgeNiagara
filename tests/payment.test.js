@@ -9,7 +9,8 @@ const { spawn } = require('child_process');
       SUCCESS_URL: 'https://example.com/success',
       CANCEL_URL: 'https://example.com/cancel',
       ALLOWED_ORIGINS: '*',
-      PORT: '5555'
+      PORT: '5555',
+      STRIPE_WEBHOOK_SECRET: 'whsec_test'
     },
     stdio: 'inherit'
   });

@@ -16,6 +16,7 @@ Sensitive credentials should be stored in a local `.env` file which is ignored b
 
 ```
 STRIPE_SECRET_KEY=sk_test_yourkeyhere
+STRIPE_WEBHOOK_SECRET=whsec_yourwebhooksecret
 SUCCESS_URL=https://your-domain.example/success.html
 CANCEL_URL=https://your-domain.example/cancel.html
 SERVER_URL=https://your-backend-domain
@@ -23,7 +24,7 @@ PORT=4242
 ALLOWED_ORIGINS=https://your-frontend.example
 ```
 
-- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` to be defined. The server will exit on startup if any are missing.
+- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` for webhook verification. The server will exit on startup if any are missing.
 - Never commit the `.env` file.
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
@@ -60,7 +61,7 @@ The Stripe integration requires a running Node backend and a static host for the
 
 1. **Deploy the backend**
    - Upload `server.js` (and `package.json`) to your host and run `npm install`.
-   - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, and `PORT` as environment variables.
+  - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, `PORT`, and `STRIPE_WEBHOOK_SECRET` as environment variables.
    - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
 2. **Deploy the static site**
    - Copy `js/config.example.js` to `js/config.js` on the static host.
@@ -87,7 +88,7 @@ Platform notes:
 
 ## Troubleshooting
 
-- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` are present in `.env`.
+- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` are present in `.env`.
 - **CORS errors** – Ensure `ALLOWED_ORIGINS` matches the domains making requests.
 
 ## Contributing

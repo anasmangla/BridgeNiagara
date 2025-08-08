@@ -23,6 +23,11 @@ if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
   process.exit(1);
 }
 
+if (!STRIPE_WEBHOOK_SECRET) {
+  console.error('Missing STRIPE_WEBHOOK_SECRET environment variable.');
+  process.exit(1);
+}
+
 const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
 const rateLimit = require('express-rate-limit');
