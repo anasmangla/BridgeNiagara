@@ -21,7 +21,7 @@ const { spawn } = require('child_process');
     let response = await fetch('http://localhost:5556/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: -100 })
+      body: JSON.stringify({ amount: -100, name: 'Test User', email: 'test@example.com' })
     });
     if (response.status !== 400) {
       throw new Error(`Expected 400 for invalid amount, got ${response.status}`);
@@ -35,11 +35,31 @@ const { spawn } = require('child_process');
     response = await fetch('http://localhost:5556/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: 999 })
+      body: JSON.stringify({ amount: 999, name: 'Test User', email: 'test@example.com' })
     });
     if (response.status !== 500) {
       throw new Error(`Expected 500 when Stripe fails, got ${response.status}`);
     }
+    // Missing name should return 400
+    response = await fetch('http://localhost:5556/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: 1000, email: 'test@example.com' })
+    });
+    if (response.status !== 400) {
+      throw new Error(`Expected 400 for missing name, got ${response.status}`);
+    }
+
+    // Invalid email should return 400
+    response = await fetch('http://localhost:5556/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: 1000, name: 'Test User', email: 'invalid-email' })
+    });
+    if (response.status !== 400) {
+      throw new Error(`Expected 400 for invalid email, got ${response.status}`);
+    }
+
     console.log('Test passed: Server error cases handled');
   } catch (err) {
     console.error('Test failed:', err);

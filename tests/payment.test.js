@@ -22,7 +22,7 @@ const { spawn } = require('child_process');
     const response = await fetch('http://localhost:5555/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: 1000 })
+      body: JSON.stringify({ amount: 1000, name: 'Test User', email: 'test@example.com', phone: '123-456-7890' })
     });
 
     if (!response.ok) {
