@@ -23,6 +23,11 @@ if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
   process.exit(1);
 }
 
+if (!STRIPE_WEBHOOK_SECRET) {
+  console.error('Missing STRIPE_WEBHOOK_SECRET environment variable.');
+  process.exit(1);
+}
+
 const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
 const rateLimit = require('express-rate-limit');
@@ -79,6 +84,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     const session = event.data.object;
     const { metadata, amount_total, id } = session;
     const donation = { metadata, amount_total, id };
+    // Persist the donation only after Stripe confirms payment success
     try {
       await fs.mkdir('data', { recursive: true });
       const filePath = 'data/donations.json';
@@ -87,7 +93,10 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
         const existing = await fs.readFile(filePath, 'utf8');
         donations = JSON.parse(existing);
       } catch (err) {
-        if (err.code !== 'ENOENT') throw err;
+        if (err.code !== 'ENOENT') {
+          console.error('Failed to read existing donations:', err);
+          return res.status(500).send('Failed to process donation.');
+        }
       }
       donations.push(donation);
       await fs.writeFile(filePath, JSON.stringify(donations, null, 2));
@@ -107,7 +116,6 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/create-checkout-session', async (req, res) => {
-
   try {
     const { amount, mode, name, email, phone } = req.body;
     const donationAmount = parseInt(amount, 10);
@@ -136,28 +144,8 @@ app.post('/create-checkout-session', async (req, res) => {
         phone: phone || ''
       }
     });
-    try {
-      await fs.mkdir('data', { recursive: true });
-      const donationsPath = 'data/donations.json';
-      let donations = [];
-      try {
-        const existing = await fs.readFile(donationsPath, 'utf8');
-        donations = JSON.parse(existing);
-      } catch (readErr) {
-        if (readErr.code !== 'ENOENT') throw readErr;
-      }
 
-      donations.push({
-        id: session.id,
-        amount_total: session.amount_total,
-        metadata: session.metadata,
-      });
-
-      await fs.writeFile(donationsPath, JSON.stringify(donations, null, 2));
-    } catch (logErr) {
-      console.error('Failed to record donation:', logErr);
-    }
-
+    // Donation details are persisted via the webhook after successful payment
     res.json({ url: session.url });
   } catch (err) {
     res.status(500).json({ error: err.message });

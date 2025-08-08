@@ -16,6 +16,7 @@ Sensitive credentials should be stored in a local `.env` file which is ignored b
 
 ```
 STRIPE_SECRET_KEY=sk_test_yourkeyhere
+STRIPE_WEBHOOK_SECRET=whsec_yourwebhooksecret
 SUCCESS_URL=https://your-domain.example/success.html
 CANCEL_URL=https://your-domain.example/cancel.html
 SERVER_URL=https://your-backend-domain
@@ -23,14 +24,12 @@ PORT=4242
 ALLOWED_ORIGINS=https://your-frontend.example
 ```
 
-- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` to be defined. The server will exit on startup if any are missing.
+- The Express server requires `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` for webhook verification. The server will exit on startup if any are missing.
 - Never commit the `.env` file.
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
-- The donation page requires a valid backend URL. `js/config.js` is versioned with a placeholder `window.SERVER_URL`. Update this file as follows:
-  - For local development, set `window.SERVER_URL` to `http://localhost:4242` (or the port used by your local server).
-  - For production, change it to the deployed backend URL.
-  - `js/config.example.js` remains as a template for reference.
+- The donation page requires a backend URL defined in `js/config.js`. The repository includes a placeholder
+  `window.SERVER_URL` pointing to `https://api.example.com`; override this value to match your backend when deploying.
 
 If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
 the page making the request. To restrict cross-origin requests, provide a comma-separated list of
@@ -61,18 +60,18 @@ The Stripe integration requires a running Node backend and a static host for the
 
 1. **Deploy the backend**
    - Upload `server.js` (and `package.json`) to your host and run `npm install`.
-   - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, and `PORT` as environment variables.
+  - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, `PORT`, and `STRIPE_WEBHOOK_SECRET` as environment variables.
    - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
 2. **Deploy the static site**
-   - Ensure `js/config.js` contains the correct `window.SERVER_URL` pointing to your backend.
-   - `js/config.example.js` is provided as a template if you need to recreate the file.
-   - Upload the HTML and client-side JavaScript (including `js/config.js`) to your static hosting provider.
+
+   - Ensure `js/config.js` is present and set `window.SERVER_URL` to the URL where the backend is deployed.
+   - Upload the HTML and client-side JavaScript (including the updated `js/config.js`) to your static hosting provider.
 
 Platform notes:
 
-- **Vercel** – Set environment variables in the project settings. Deploy `server.js` as a Serverless Function or run `npm start`. Ensure `js/config.js` points to the Vercel backend.
-- **Netlify** – Add the same environment variables in Site settings. Serve the backend via a Netlify Function or external Node server, and commit `js/config.js` with the backend URL.
-- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Ensure `js/config.js` points to that server.
+- **Vercel** – Set environment variables in the project settings. Deploy `server.js` as a Serverless Function or run `npm start`. Ensure the static site includes a customized `js/config.js` pointing to the Vercel backend.
+- **Netlify** – Add the same environment variables in Site settings. Serve the backend via a Netlify Function or external Node server, and deploy the static files with a `js/config.js` referencing it.
+- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Ensure `js/config.js` on the static portion of the site points to that server.
 
 ### Verifying the Stripe Endpoint
 
@@ -88,7 +87,7 @@ Platform notes:
 
 ## Troubleshooting
 
-- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, and `CANCEL_URL` are present in `.env`.
+- **Server exits on startup** – Check that `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, and `STRIPE_WEBHOOK_SECRET` are present in `.env`.
 - **CORS errors** – Ensure `ALLOWED_ORIGINS` matches the domains making requests.
 
 ## Contributing
