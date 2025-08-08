@@ -92,15 +92,20 @@ window.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      const contentType = res.headers.get('Content-Type') || '';
+      if (!contentType.includes('application/json')) {
+        await res.text();
+        throw new Error('Donation service unavailable');
+      }
+      const body = await res.json();
       if (!res.ok) {
-        const error = await res.json();
         if (res.status >= 500 && errorMessage) {
-          errorMessage.textContent = error.error || 'An unexpected error occurred. Please try again later.';
+          errorMessage.textContent = body.error || 'An unexpected error occurred. Please try again later.';
           return;
         }
-        throw new Error(error.error || 'Failed to create session');
+        throw new Error(body.error || 'Failed to create session');
       }
-      const { url } = await res.json();
+      const { url } = body;
       if (url) {
         window.location.href = url;
       }
