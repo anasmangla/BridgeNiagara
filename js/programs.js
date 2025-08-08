@@ -1,10 +1,11 @@
-// Program slider using translateX
+/* global Swiper */
+// Initialize Swiper slider for community programs
 // Automatically discovers BN* images in the images/ directory and builds
 // the slider from them.
 window.addEventListener('DOMContentLoaded', async () => {
-  const slider = document.getElementById('program-slider');
-  if (!slider) return;
-  const track = slider.querySelector('[data-program-track]');
+  const sliderEl = document.getElementById('program-slider');
+  if (!sliderEl) return;
+  const wrapper = sliderEl.querySelector('.swiper-wrapper');
 
   // Auto-discover sequential BN images (BN1.jpg, BN2.jpeg, BN3.JPG, ...)
   const slideImages = [];
@@ -27,60 +28,36 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (!found) break;
   }
 
-  // Inject discovered slides into the track
-  track.innerHTML = '';
+  // Inject discovered slides into the wrapper
+  wrapper.innerHTML = '';
   slideImages.forEach((src, idx) => {
     const slide = document.createElement('div');
-    slide.className = 'program-slide w-full flex-shrink-0';
+    slide.className = 'swiper-slide';
     slide.innerHTML = `<img src="${src}" alt="Community program ${idx + 1}" class="w-full h-full object-cover" />`;
-    track.appendChild(slide);
+    wrapper.appendChild(slide);
   });
 
-  const slides = track.querySelectorAll('.program-slide');
-  const nextBtn = slider.querySelector('[data-program-next]');
-  const prevBtn = slider.querySelector('[data-program-prev]');
-  let index = 0;
-  let timer;
-
-  function goTo(i) {
-    index = (i + total) % total;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }
-
-  function start() {
-    timer = setInterval(() => goTo(index + 1), 3000);
-  }
-
-  function reset() {
-    clearInterval(timer);
-    start();
-  }
-
-  nextBtn?.addEventListener('click', () => {
-    goTo(index + 1);
-    reset();
+  // Initialize Swiper with autoplay, navigation, keyboard control and pagination
+  new Swiper('#program-slider', {
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true,
+    },
+    effect: 'fade',
+    fadeEffect: { crossFade: true },
+    speed: 600,
   });
-
-  prevBtn?.addEventListener('click', () => {
-    goTo(index - 1);
-    reset();
-  });
-
-  // touch handlers for swipe
-  let startX = 0;
-  slider.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    clearInterval(timer);
-  });
-
-  slider.addEventListener('touchend', (e) => {
-    const diff = e.changedTouches[0].clientX - startX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? goTo(index - 1) : goTo(index + 1);
-    }
-    reset();
-  });
-
-  goTo(0);
-  start();
 });
