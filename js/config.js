@@ -1,2 +1,1 @@
-
-window.SERVER_URL = 'https://api.example.com';
+window.SERVER_URL = 'https://api.bridgeniagara.org';
