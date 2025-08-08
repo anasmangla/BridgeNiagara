@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://www.bridgeniagara.org/donate.html">
-  <script src="js/redirect.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Support Bridge Niagara Foundation's programs by making a secure donation.">
-  <noscript><meta http-equiv="refresh" content="0;url=https://www.bridgeniagara.org/donate.html"></noscript>
   <script src="js/redirect.js"></script>
   <title>Donate - Bridge Niagara Foundation</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,7 +21,7 @@
   <main class="max-w-lg mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-center text-green-700 mb-6">Support Our Mission</h1>
     <p id="error-message" class="text-red-600 text-center"></p>
-    <form id="donation-form" class="space-y-4">
+    <form id="donation-form" method="POST" action="/create-checkout-session" class="space-y-4">
       <input type="hidden" id="amount" name="amount">
       <input type="hidden" id="donation-mode" name="mode" value="payment">
       <div class="flex justify-center gap-2 mb-4">
