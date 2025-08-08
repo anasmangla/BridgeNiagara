@@ -1,3 +1,5 @@
+import { getDonationAmount, isValidAmount } from './donationHelpers.mjs';
+
 // Donation page interactions (modified)
 window.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.donate-tab');
@@ -74,16 +76,10 @@ window.addEventListener('DOMContentLoaded', () => {
       errorMessage.textContent = '';
     }
     const data = Object.fromEntries(new FormData(e.target).entries());
-    // Use amount from preset or custom; convert to integer cents
-    if (!data.amount) {
-      const custom = parseFloat(data.custom_amount || '0');
-      data.amount = Math.round(custom * 100);
-    } else {
-      data.amount = parseInt(data.amount, 10);
-    }
+    data.amount = getDonationAmount(data);
     delete data.custom_amount;
 
-    if (!Number.isInteger(data.amount) || data.amount <= 0) {
+    if (!isValidAmount(data.amount)) {
       alert('Please enter a valid donation amount.');
       return;
     }
