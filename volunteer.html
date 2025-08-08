@@ -57,6 +57,7 @@
     <div id="volunteer-status" class="mt-4 hidden"></div>
   </main>
   <div id="footer"></div>
+  <script src="js/config.js"></script>
   <script>
   const volunteerForm = document.getElementById('volunteer-form');
   const volunteerStatus = document.getElementById('volunteer-status');
@@ -85,7 +86,7 @@
     const data = Object.fromEntries(new FormData(volunteerForm).entries());
     data.formType = 'volunteer';
     try {
-      const res = await fetch(volunteerForm.action, {
+      const res = await fetch(`${window.SERVER_URL}/submit-form`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
