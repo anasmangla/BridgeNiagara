@@ -56,9 +56,28 @@ npm test
 
 ## Deploying to Hosting Platforms
 
-- **Vercel** – Set the environment variables in the project settings. Use `npm start` as the start command or create a Serverless Function.
-- **Netlify** – Add the same environment variables and serve the `server.js` file via a Netlify Function or an external server.
-- **cPanel or traditional hosting** – Upload the repository, install dependencies on the server, set the environment variables through the hosting control panel, and run `node server.js` using a process manager like `pm2`.
+The Stripe integration requires a running Node backend and a static host for the HTML/JS files.
+
+1. **Deploy the backend**
+   - Upload `server.js` (and `package.json`) to your host and run `npm install`.
+   - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, and `PORT` as environment variables.
+   - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
+2. **Deploy the static site**
+   - Copy `js/config.example.js` to `js/config.js` on the static host.
+   - Set `window.SERVER_URL` in `js/config.js` to the URL where the backend is deployed.
+   - Upload the HTML and client-side JavaScript (including `js/config.js`) to your static hosting provider.
+
+Platform notes:
+
+- **Vercel** – Set environment variables in the project settings. Deploy `server.js` as a Serverless Function or run `npm start`. Ensure the static site includes a customized `js/config.js` pointing to the Vercel backend.
+- **Netlify** – Add the same environment variables in Site settings. Serve the backend via a Netlify Function or external Node server, and deploy the static files with a `js/config.js` referencing it.
+- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Create `js/config.js` on the static portion of the site pointing to that server.
+
+### Verifying the Stripe Endpoint
+
+- [ ] `js/config.js` exists and `window.SERVER_URL` matches the deployed backend.
+- [ ] From `donate.html`, a network request to `${window.SERVER_URL}/create-checkout-session` returns a `200` response.
+- [ ] Clicking the donate button redirects to Stripe Checkout without CORS errors.
 
 ## Static Hosting Notes
 
