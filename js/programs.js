@@ -14,7 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
     index = (i + total) % total;
     track.style.transform = `translateX(-${index * 100}%)`;
   }
-
   function start() {
     timer = setInterval(() => goTo(index + 1), 3000);
   }
