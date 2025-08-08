@@ -12,8 +12,7 @@ const {
 } = process.env;
 
 if (!ALLOWED_ORIGINS) {
-  console.error('Missing ALLOWED_ORIGINS environment variable.');
-  process.exit(1);
+  console.warn('ALLOWED_ORIGINS not set; using default origin list.');
 }
 
 if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
@@ -42,8 +41,7 @@ const defaultAllowedOrigins = [
   'https://www.bridgeniagara.org',
 ];
 const envAllowedOrigins = ALLOWED_ORIGINS;
-// When ALLOWED_ORIGINS is not set, default to reflecting the request origin
-// so that same-origin requests are permitted without extra configuration.
+// When ALLOWED_ORIGINS is not set, fall back to the default list above.
 const allowedOrigins = envAllowedOrigins
   ? Array.from(
       new Set(
