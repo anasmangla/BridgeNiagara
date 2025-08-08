@@ -27,9 +27,8 @@ ALLOWED_ORIGINS=https://your-frontend.example
 - Never commit the `.env` file.
 - In production, configure these values through your hosting provider's environment settings.
 - Use the publishable key (`pk_test…`) only for client-side Stripe SDK usage when added.
-- The donation page requires a valid backend URL. Copy `js/config.example.js` to `js/config.js` and
-  set `window.SERVER_URL` to your backend endpoint (matching `SERVER_URL` above). The `config.js`
-  file is ignored by git and must be created per deployment.
+- The donation page requires a backend URL defined in `js/config.js`. The repository includes a placeholder
+  `window.SERVER_URL` pointing to `https://api.example.com`; override this value to match your backend when deploying.
 
 If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
 the page making the request. To restrict cross-origin requests, provide a comma-separated list of
@@ -63,15 +62,14 @@ The Stripe integration requires a running Node backend and a static host for the
    - Configure `STRIPE_SECRET_KEY`, `SUCCESS_URL`, `CANCEL_URL`, `SERVER_URL`, `ALLOWED_ORIGINS`, and `PORT` as environment variables.
    - Start the server with `npm start` or `node server.js` under a process manager such as `pm2`.
 2. **Deploy the static site**
-   - Copy `js/config.example.js` to `js/config.js` on the static host.
-   - Set `window.SERVER_URL` in `js/config.js` to the URL where the backend is deployed.
-   - Upload the HTML and client-side JavaScript (including `js/config.js`) to your static hosting provider.
+   - Ensure `js/config.js` is present and set `window.SERVER_URL` to the URL where the backend is deployed.
+   - Upload the HTML and client-side JavaScript (including the updated `js/config.js`) to your static hosting provider.
 
 Platform notes:
 
 - **Vercel** – Set environment variables in the project settings. Deploy `server.js` as a Serverless Function or run `npm start`. Ensure the static site includes a customized `js/config.js` pointing to the Vercel backend.
 - **Netlify** – Add the same environment variables in Site settings. Serve the backend via a Netlify Function or external Node server, and deploy the static files with a `js/config.js` referencing it.
-- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Create `js/config.js` on the static portion of the site pointing to that server.
+- **cPanel or traditional hosting** – Upload the repository, install dependencies, configure the environment variables in the control panel, and run `node server.js` with `pm2`. Ensure `js/config.js` on the static portion of the site points to that server.
 
 ### Verifying the Stripe Endpoint
 
