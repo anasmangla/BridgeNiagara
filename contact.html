@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=https://www.bridgeniagara.org/contact.html">
+  <script src="js/redirect.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Get in touch with Bridge Niagara Foundation for questions, support, or directions to our Niagara Falls office.">
-    <noscript><meta http-equiv="refresh" content="0;url=https://www.bridgeniagara.org/contact.html"></noscript>
-    <script src="js/redirect.js"></script>
-    <title>Contact Us - Bridge Niagara Foundation</title>
-    <link rel="stylesheet" href="css/tailwind.css" />
+  <meta name="description" content="Get in touch with Bridge Niagara Foundation for questions, support, or directions to our Niagara Falls office.">
+  <noscript><meta http-equiv="refresh" content="0;url=https://www.bridgeniagara.org/contact.html"></noscript>
+  <script src="js/redirect.js"></script>
+  <title>Contact Us - Bridge Niagara Foundation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
     body{font-family:'Inter',sans-serif;}
@@ -22,8 +24,11 @@
     <h1 class="text-3xl font-bold text-green-700">Contact Us</h1>
     <p class="text-gray-700">Have questions or need assistance? Reach out and we'll be happy to help.</p>
     <p class="text-gray-700">Email: <a href="mailto:info@bridgeniagara.org" class="text-green-700 underline">info@bridgeniagara.org</a></p>
+    <p class="text-gray-700">Naz716 Business Center<br>6951 Williams Rd, Niagara Falls, NY 14304</p>
+    <p class="text-gray-700">Aero Transportation: <a href="tel:7169906515" class="text-green-700 underline">(716) 990-6515</a></p>
+    <p class="text-gray-700">Bridge Niagara Foundation: <a href="tel:7162184233" class="text-green-700 underline">(716) 218-4233</a></p>
 
-    <div class="h-64 w-full"><iframe id="map" class="w-full h-full border-0" loading="lazy" allowfullscreen></iframe></div>
+    <div class="h-64 w-full"><iframe class="w-full h-full border-0" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Naz716%20Business%20Center%206951%20Williams%20Rd%20Niagara%20Falls%20NY%2014304&output=embed"></iframe></div>
 
     <form id="contact-form" action="/submit-form" method="POST" class="space-y-4">
       <div>
@@ -41,11 +46,17 @@
       <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Send</button>
     </form>
     <p id="contact-status" class="text-sm"></p>
+    <div>
+      <p class="text-gray-700">Follow us on social media for updates:</p>
+      <div class="flex gap-4 mt-2">
+        <a href="https://www.facebook.com/BridgeNiagara" target="_blank" rel="noopener" class="text-green-700 underline">Facebook</a>
+        <a href="https://www.instagram.com/BridgeNiagara" target="_blank" rel="noopener" class="text-green-700 underline">Instagram</a>
+      </div>
+    </div>
   </main>
   <div id="footer"></div>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
-  <script src="js/map.js"></script>
   <script>
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');

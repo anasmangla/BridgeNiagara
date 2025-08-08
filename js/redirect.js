@@ -1,7 +1,8 @@
-// Redirect root domain to canonical www subdomain
+// Redirect to canonical domain while preserving path, query, and hash
 (function () {
-  if (window.location.hostname === 'bridgeniagara.org') {
-    const { pathname, search, hash } = window.location;
-    window.location.replace(`https://www.bridgeniagara.org${pathname}${search}${hash}`);
+  const { pathname, search, hash, href } = window.location;
+  const target = `https://www.bridgeniagara.org${pathname}${search}${hash}`;
+  if (href !== target) {
+    window.location.replace(target);
   }
 })();

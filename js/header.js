@@ -1,8 +1,8 @@
 // Inject shared header on pages
 window.addEventListener('DOMContentLoaded', () => {
-  const headerUrl = window.location.hostname.startsWith('www.')
-    ? '/header.html'
-    : 'https://www.bridgeniagara.org/header.html';
+  const headerUrl = window.location.hostname === 'bridgeniagara.org'
+    ? 'https://www.bridgeniagara.org/header.html'
+    : '/header.html';
 
   fetch(headerUrl)
     .then((response) => response.text())
