@@ -94,6 +94,27 @@ app.post('/create-checkout-session', async (req, res) => {
         phone: phone || ''
       }
     });
+    try {
+      await fs.mkdir('data', { recursive: true });
+      const donationsPath = 'data/donations.json';
+      let donations = [];
+      try {
+        const existing = await fs.readFile(donationsPath, 'utf8');
+        donations = JSON.parse(existing);
+      } catch (readErr) {
+        if (readErr.code !== 'ENOENT') throw readErr;
+      }
+
+      donations.push({
+        id: session.id,
+        amount_total: session.amount_total,
+        metadata: session.metadata,
+      });
+
+      await fs.writeFile(donationsPath, JSON.stringify(donations, null, 2));
+    } catch (logErr) {
+      console.error('Failed to record donation:', logErr);
+    }
 
     res.json({ url: session.url });
   } catch (err) {
