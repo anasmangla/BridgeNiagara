@@ -4,6 +4,11 @@
 # php -- END cPanel-generated handler, do not edit
 # Redirect root to index.html while preserving HTTPS and trailing slashes
 RewriteEngine On
+
+# Enforce canonical www domain
+RewriteCond %{HTTP_HOST} ^bridgeniagara\.org$ [NC]
+RewriteRule ^(.*)$ https://www.bridgeniagara.org/$1 [L,R=301]
+
 RewriteCond %{REQUEST_URI} ^/$
 RewriteRule ^$ /index.html [L,R=301]
 
