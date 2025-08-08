@@ -1,5 +1,6 @@
 // Program slider next/prev logic
 window.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('program-slider');
   const slides = document.querySelectorAll('#program-slider .program-slide');
   const nextBtn = document.querySelector('[data-program-next]');
   const prevBtn = document.querySelector('[data-program-prev]');
@@ -15,14 +16,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function startAutoPlay() {
     interval = setInterval(() => {
-      index = (index + 1) % slides.length;
-      showSlide(index);
+      nextSlide();
     }, 5000);
   }
 
-  function resetAutoPlay() {
+  function stopAutoPlay() {
     clearInterval(interval);
+  }
+
+  function resetAutoPlay() {
+    stopAutoPlay();
     startAutoPlay();
+  }
+
+  function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }
+
+  function prevSlide() {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
   }
 
   if (slides.length) {
@@ -30,15 +44,26 @@ window.addEventListener('DOMContentLoaded', () => {
     startAutoPlay();
 
     nextBtn?.addEventListener('click', () => {
-      index = (index + 1) % slides.length;
-      showSlide(index);
+      nextSlide();
       resetAutoPlay();
     });
 
     prevBtn?.addEventListener('click', () => {
-      index = (index - 1 + slides.length) % slides.length;
-      showSlide(index);
+      prevSlide();
       resetAutoPlay();
     });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+        resetAutoPlay();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+        resetAutoPlay();
+      }
+    });
+
+    slider?.addEventListener('mouseenter', stopAutoPlay);
+    slider?.addEventListener('mouseleave', startAutoPlay);
   }
 });

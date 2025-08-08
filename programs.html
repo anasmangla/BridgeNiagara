@@ -13,6 +13,7 @@
     .donate-btn:hover{background-color:#b91c1c;}
     @media(min-width:640px){.donate-btn{width:auto;}}
     .hero-slide{transition:opacity 0.5s ease-in-out;}
+    .program-details li{margin-bottom:0.25rem;}
   </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -21,7 +22,7 @@
   <main class="max-w-5xl mx-auto px-4 py-12">
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
       <!-- Image Slider -->
-      <div class="relative overflow-hidden h-64 md:h-96" id="program-slider">
+      <div class="relative overflow-hidden h-64 md:h-96 rounded-lg" id="program-slider">
         <div class="program-slide absolute inset-0 opacity-100">
           <img src="images/BN1.jpg" alt="Community program 1" class="w-full h-full object-cover" />
         </div>
@@ -31,8 +32,14 @@
         <div class="program-slide absolute inset-0 opacity-0">
           <img src="images/BN3.jpg" alt="Community program 3" class="w-full h-full object-cover" />
         </div>
-        <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-prev>&larr;</button>
-        <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-next>&rarr;</button>
+        <div class="program-slide absolute inset-0 opacity-0">
+          <img src="images/BN4.jpg" alt="Community program 4" class="w-full h-full object-cover" />
+        </div>
+        <div class="program-slide absolute inset-0 opacity-0">
+          <img src="images/program-placeholder.svg" alt="Community program placeholder" class="w-full h-full object-cover" />
+        </div>
+        <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-prev aria-label="Previous slide">&larr;</button>
+        <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-next aria-label="Next slide">&rarr;</button>
       </div>
 
       <!-- Program Cards -->
@@ -40,30 +47,55 @@
         <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
           <h2 class="text-2xl font-semibold text-green-700">Bollywood Night &amp; Farzana Legacy Scholarship</h2>
           <p>Our annual Bollywood Night celebrates South Asian culture while raising funds for the Farzana Legacy Scholarship, helping students pursue higher education.</p>
+          <ul class="program-details list-disc pl-5 text-sm text-gray-700">
+            <li>Traditional dance performances and music</li>
+            <li>Scholarship awards for local youth</li>
+            <li>Cultural cuisine and community gathering</li>
+          </ul>
           <a href="volunteer.html" class="inline-block bg-green-700 text-white px-4 py-2 rounded">Get Involved</a>
         </article>
 
         <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
           <h2 class="text-2xl font-semibold text-green-700">Vendor Shows &amp; Business Meetups</h2>
           <p>Seasonal marketplaces and networking events connect local entrepreneurs, offering opportunities to showcase products and build partnerships.</p>
+          <ul class="program-details list-disc pl-5 text-sm text-gray-700">
+            <li>Showcase booths for small businesses</li>
+            <li>Networking sessions with local leaders</li>
+            <li>Workshops on business development</li>
+          </ul>
           <a href="volunteer.html" class="inline-block bg-green-700 text-white px-4 py-2 rounded">Get Involved</a>
         </article>
 
         <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
           <h2 class="text-2xl font-semibold text-green-700">Community Clean-Ups</h2>
           <p>Join neighbors in monthly clean-ups that beautify parks and streets across Niagara, fostering pride and stewardship in our community.</p>
+          <ul class="program-details list-disc pl-5 text-sm text-gray-700">
+            <li>Monthly park and street cleanings</li>
+            <li>Supplies provided for volunteers</li>
+            <li>Community service hours available</li>
+          </ul>
           <a href="volunteer.html" class="inline-block bg-green-700 text-white px-4 py-2 rounded">Get Involved</a>
         </article>
 
         <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
           <h2 class="text-2xl font-semibold text-green-700">Youth Programs</h2>
           <p>From mentorship to recreational activities, our youth programs provide safe spaces and guidance for the next generation of leaders.</p>
+          <ul class="program-details list-disc pl-5 text-sm text-gray-700">
+            <li>After-school tutoring and mentorship</li>
+            <li>Sports and arts activities</li>
+            <li>Leadership development workshops</li>
+          </ul>
           <a href="volunteer.html" class="inline-block bg-green-700 text-white px-4 py-2 rounded">Get Involved</a>
         </article>
 
         <article class="bg-yellow-50 rounded-lg p-6 shadow space-y-2">
           <h2 class="text-2xl font-semibold text-green-700">Turkey Giveaway</h2>
           <p>Each year we distribute turkeys and holiday groceries to families in need, ensuring everyone can share in festive meals.</p>
+          <ul class="program-details list-disc pl-5 text-sm text-gray-700">
+            <li>Holiday meal kits for families</li>
+            <li>Volunteer delivery teams</li>
+            <li>Donations accepted year-round</li>
+          </ul>
           <a href="turkey-giveaway.html" class="inline-block bg-green-700 text-white px-4 py-2 rounded">Get Involved</a>
         </article>
       </div>
