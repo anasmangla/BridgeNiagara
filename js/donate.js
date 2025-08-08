@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const amountButtons = document.querySelectorAll('.amount-btn');
   const amountInput = document.getElementById('amount');
   const customInput = document.querySelector('input[name="custom_amount"]');
+  const errorMessage = document.getElementById('error-message');
 
   // Highlight selected preset amount and clear custom input
   amountButtons.forEach((btn) => {
@@ -69,6 +70,9 @@ window.addEventListener('DOMContentLoaded', () => {
   // Submit logic
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (errorMessage) {
+      errorMessage.textContent = '';
+    }
     const data = Object.fromEntries(new FormData(e.target).entries());
     // Use amount from preset or custom; convert to integer cents
     if (!data.amount) {
@@ -94,6 +98,10 @@ window.addEventListener('DOMContentLoaded', () => {
       });
       if (!res.ok) {
         const error = await res.json();
+        if (res.status >= 500 && errorMessage) {
+          errorMessage.textContent = error.error || 'An unexpected error occurred. Please try again later.';
+          return;
+        }
         throw new Error(error.error || 'Failed to create session');
       }
       const { url } = await res.json();
@@ -101,7 +109,11 @@ window.addEventListener('DOMContentLoaded', () => {
         window.location.href = url;
       }
     } catch (err) {
-      alert(err.message);
+      if (errorMessage) {
+        errorMessage.textContent = err.message;
+      } else {
+        alert(err.message);
+      }
     }
   });
 });
