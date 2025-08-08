@@ -12,6 +12,11 @@ const {
   STRIPE_WEBHOOK_SECRET,
 } = process.env;
 
+if (!ALLOWED_ORIGINS) {
+  console.error('Missing ALLOWED_ORIGINS environment variable.');
+  process.exit(1);
+}
+
 if (!STRIPE_SECRET_KEY || !SUCCESS_URL || !CANCEL_URL) {
   console.error(
     'Missing required environment variables: STRIPE_SECRET_KEY, SUCCESS_URL, and CANCEL_URL must be defined.'
@@ -28,22 +33,25 @@ const app = express();
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 app.use(limiter);
 
-// Fallback origins used when ALLOWED_ORIGINS is undefined or empty
 const defaultAllowedOrigins = [
   'https://bridgeniagara.org',
   'https://www.bridgeniagara.org',
 ];
-// Parse ALLOWED_ORIGINS into an array, ignoring empty values
-const envAllowedOrigins = ALLOWED_ORIGINS
-  ? ALLOWED_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean)
-  : [];
-
-// Use defaults if no origins are provided; otherwise merge with defaults
-const allowedOrigins = envAllowedOrigins.length
-  ? Array.from(new Set([...envAllowedOrigins, ...defaultAllowedOrigins]))
+const envAllowedOrigins = ALLOWED_ORIGINS;
+// When ALLOWED_ORIGINS is not set, default to reflecting the request origin
+// so that same-origin requests are permitted without extra configuration.
+const allowedOrigins = envAllowedOrigins
+  ? Array.from(
+      new Set(
+        envAllowedOrigins
+          .split(',')
+          .map((o) => o.trim())
+          .concat(defaultAllowedOrigins)
+      )
+    )
   : defaultAllowedOrigins;
 
-const corsOptions = allowedOrigins.includes('*')
+const corsOptions = !allowedOrigins || allowedOrigins.includes('*')
   ? { origin: true }
   : {
       origin: (origin, callback) => {

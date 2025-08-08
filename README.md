@@ -31,10 +31,9 @@ ALLOWED_ORIGINS=https://your-frontend.example
   set `window.SERVER_URL` to your backend endpoint (matching `SERVER_URL` above). The `config.js`
   file is ignored by git and must be created per deployment.
 
-If `ALLOWED_ORIGINS` is omitted or empty, the server allows requests from
-`https://bridgeniagara.org` and `https://www.bridgeniagara.org` by default. To
-allow additional origins, provide a comma-separated list or set
-`ALLOWED_ORIGINS=*` to permit any origin.
+If `ALLOWED_ORIGINS` is omitted, the server will automatically allow requests from the same origin as
+the page making the request. To restrict cross-origin requests, provide a comma-separated list of
+allowed origins or set `ALLOWED_ORIGINS=*` to permit any origin.
 
 ## Running Locally
 
