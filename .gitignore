@@ -7,5 +7,3 @@ node_modules/
 # Other
 .DS_Store
 
-# Frontend configuration generated per deployment
-js/config.js
