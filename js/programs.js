@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const slides = slider.querySelectorAll('.program-slide');
   const nextBtn = slider.querySelector('[data-program-next]');
   const prevBtn = slider.querySelector('[data-program-prev]');
-  const total = slides.length;
   let index = 0;
   let timer;
 
