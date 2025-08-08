@@ -1,10 +1,11 @@
-// Program slider using translateX
+/* global Swiper */
+// Initialize Swiper slider for community programs
 // Automatically discovers BN* images in the images/ directory and builds
 // the slider from them.
 window.addEventListener('DOMContentLoaded', async () => {
-  const slider = document.getElementById('program-slider');
-  if (!slider) return;
-  const track = slider.querySelector('[data-program-track]');
+  const sliderEl = document.getElementById('program-slider');
+  if (!sliderEl) return;
+  const wrapper = sliderEl.querySelector('.swiper-wrapper');
 
   // Preserve any original markup in case auto-discovery fails
   const originalHTML = track.innerHTML;
@@ -87,27 +88,4 @@ window.addEventListener('DOMContentLoaded', async () => {
     goTo(index + 1);
     reset();
   });
-
-  prevBtn?.addEventListener('click', () => {
-    goTo(index - 1);
-    reset();
-  });
-
-  // touch handlers for swipe
-  let startX = 0;
-  slider.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    clearInterval(timer);
-  });
-
-  slider.addEventListener('touchend', (e) => {
-    const diff = e.changedTouches[0].clientX - startX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? goTo(index - 1) : goTo(index + 1);
-    }
-    reset();
-  });
-
-  goTo(0);
-  start();
 });
