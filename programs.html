@@ -22,17 +22,19 @@
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
       <!-- Image Slider -->
       <div class="relative overflow-hidden h-64 md:h-96" id="program-slider">
-        <div class="program-slide absolute inset-0 opacity-100">
-          <img src="images/BN1.jpg" alt="Community program 1" class="w-full h-full object-cover" />
+        <div class="flex w-full h-full transition-transform duration-500" data-program-track>
+          <div class="program-slide w-full flex-shrink-0">
+            <img src="images/BN1.jpg" alt="Community program 1" class="w-full h-full object-cover" />
+          </div>
+          <div class="program-slide w-full flex-shrink-0">
+            <img src="images/BN2.jpg" alt="Community program 2" class="w-full h-full object-cover" />
+          </div>
+          <div class="program-slide w-full flex-shrink-0">
+            <img src="images/BN3.jpg" alt="Community program 3" class="w-full h-full object-cover" />
+          </div>
         </div>
-        <div class="program-slide absolute inset-0 opacity-0">
-          <img src="images/BN2.jpg" alt="Community program 2" class="w-full h-full object-cover" />
-        </div>
-        <div class="program-slide absolute inset-0 opacity-0">
-          <img src="images/BN3.jpg" alt="Community program 3" class="w-full h-full object-cover" />
-        </div>
-        <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-prev>&larr;</button>
-        <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1" data-program-next>&rarr;</button>
+        <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-xl shadow-lg hover:bg-black/70 transition" data-program-prev>&larr;</button>
+        <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-xl shadow-lg hover:bg-black/70 transition" data-program-next>&rarr;</button>
       </div>
 
       <!-- Program Cards -->
