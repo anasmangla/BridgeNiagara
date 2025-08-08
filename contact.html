@@ -52,6 +52,7 @@
   <div id="footer"></div>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
+  <script src="js/config.js"></script>
   <script>
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');
@@ -79,7 +80,7 @@
     const data = Object.fromEntries(new FormData(contactForm).entries());
     data.formType = 'contact';
     try {
-      const res = await fetch(contactForm.action, {
+      const res = await fetch(`${window.SERVER_URL}/submit-form`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
