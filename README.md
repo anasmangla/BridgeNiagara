@@ -12,13 +12,7 @@ npm install
 
 ## Environment Variables
 
-Sensitive credentials should be stored in a local `.env` file which is ignored by git. Start by copying `.env.example` to `.env`:
-
-```
-cp .env.example .env
-```
-
-Then edit `.env` and customize the values:
+Sensitive credentials should be stored in a local `.env` file which is ignored by git. Start by copying `.env.example` to `.env` and customizing the values.
 
 ```
 STRIPE_SECRET_KEY=sk_test_yourkeyhere
