@@ -1,5 +1,5 @@
----
 deployment:
   tasks:
-    - export DEPLOY_PATH=/home/3cserve/public_html/bridgeniagara
-    - /usr/bin/rsync -a --exclude '.git*' $PWD/ $DEPLOY_PATH
+    - export DEPLOY_PATH=/home3/aerosevo/public_html/bridgeniagara
+    - /bin/cp -R . $DEPLOY_PATH
+    - /bin/touch $DEPLOY_PATH/tmp/restart.txt

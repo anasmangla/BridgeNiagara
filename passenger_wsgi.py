@@ -1,5 +1,8 @@
 import os, sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(BASE_DIR))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bridgeniagara.settings')
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

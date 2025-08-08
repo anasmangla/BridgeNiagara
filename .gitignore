@@ -3,18 +3,16 @@ venv/
 __pycache__/
 *.pyc
 
-# Database
-db.sqlite3
-
 # Environment
 .env
 
-# Static and media
+# Static files
 staticfiles/
-media/
 
 # Node dependencies
 node_modules/
 
-# macOS
+# Misc
+db.sqlite3
+media/
 .DS_Store
