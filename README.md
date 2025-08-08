@@ -1,56 +1,43 @@
-# BridgeNiagara Deployment Guide
+# BridgeNiagara
 
-This guide covers deploying the application to a Python environment on Bluehost using cPanel.
+## Setup
 
-## 1. Install Python Dependencies
-
-Use the version of Python configured for your Bluehost application and install the required packages:
+1. Create a virtual environment and install dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-## 2. Run Migrations and Collect Static Files
+2. Copy `.env.example` to `.env` and fill in the values:
 
-Apply database migrations and gather static assets before deployment:
+```
+DJANGO_SECRET_KEY=change-me
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=bridgeniagara.org,www.bridgeniagara.org
+
+MYSQL_DB=bridgeniagara_db
+MYSQL_USER=bridgeniagara_user
+MYSQL_PASSWORD=CHANGE_ME
+
+STRIPE_SECRET_KEY=sk_test_or_live_here
+STRIPE_PUBLISHABLE_KEY=pk_test_or_live_here
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+DONATION_SUCCESS_URL=https://www.bridgeniagara.org/success/
+DONATION_CANCEL_URL=https://www.bridgeniagara.org/cancel/
+```
+
+3. Run migrations and collect static files:
 
 ```
 python manage.py migrate
 python manage.py collectstatic --noinput
 ```
 
-## 3. Configure Environment Variables on Bluehost
+## Deploying on cPanel
 
-1. Log in to Bluehost and open **Advanced → Terminal** or connect via SSH.
-2. Edit `~/.bash_profile` (or the virtual environment's `activate` script) to export required variables, e.g.:
-   ```bash
-   export DJANGO_SETTINGS_MODULE=project.settings
-   export SECRET_KEY=your-secret-key
-   export DATABASE_URL=mysql://user:password@host/dbname
-   ```
-3. Reload the profile (`source ~/.bash_profile`) or restart the app so the variables take effect.
+Deployment is managed by `.cpanel.yml`. After pushing to the repository, cPanel will:
 
-## 4. Use `passenger_wsgi.py` as the Entry Point
+- copy the project to `/home3/aerosevo/public_html/bridgeniagara`
+- touch `tmp/restart.txt` to reload the application
 
-Create a `passenger_wsgi.py` file at the project root to point Passenger to the Django WSGI application:
-
-```python
-import os
-import sys
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(BASE_DIR))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
-
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-```
-
-## 5. Deploy via cPanel Git Version Control and Restart the Python App
-
-1. In cPanel, open **Files → Git Version Control** and create or configure a repository pointing to this project.
-2. After pushing changes, deploy the latest commit from cPanel or by running `git pull` in the app directory.
-3. Go to **Advanced → Python Apps** (or **Setup Python App**) and click **Restart** to reload the application with the new code.
-
-Your application should now be running with the latest code, migrations, and static assets.
+Ensure `passenger_wsgi.py` is present at the project root and points to `bridgeniagara.settings`.

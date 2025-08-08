@@ -1,4 +1,4 @@
-Django>=3.2
-stripe
-pymysql
-python-dotenv
+Django>=4.2,<5.0
+stripe>=9.0.0
+pymysql>=1.1.0
+python-dotenv>=1.0.1

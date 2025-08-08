@@ -1,0 +1,32 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Support Our Mission</h1>
+<div>
+  <button class="preset" data-cents="1000">$10</button>
+  <button class="preset" data-cents="2500">$25</button>
+  <button class="preset" data-cents="5000">$50</button>
+  <input id="custom" type="number" placeholder="Custom USD" />
+  <input id="name" placeholder="Name" />
+  <input id="email" placeholder="Email" />
+  <input id="phone" placeholder="Phone" />
+  <button id="donateBtn">Donate with Stripe</button>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe("{{ stripe_pk }}");
+  let amount = 1000;
+  document.querySelectorAll('.preset').forEach(b=>b.onclick=()=> amount = parseInt(b.dataset.cents,10));
+  document.getElementById('donateBtn').onclick = async () => {
+    const c = document.getElementById('custom').value;
+    if (c) amount = Math.round(parseFloat(c)*100);
+    const payload = { amount_cents: amount,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value };
+    const r = await fetch("{% url 'create_checkout_session' %}", {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+    });
+    if(!r.ok){ alert('Unable to start checkout.'); return; }
+    const {url} = await r.json(); window.location = url;
+  };
+</script>
+{% endblock %}
